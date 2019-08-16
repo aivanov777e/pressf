@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DocumentModule } from './feature/document/document.module';
+import { DocumentModule } from './document/document.module';
 
 
 const routes: Routes = [
   {path: 'document', loadChildren: () =>
-    import('./feature/document/document.module').then(mod => mod.DocumentModule)},
+    import('./document/document.module').then(mod => mod.DocumentModule)},
   {path: '**', redirectTo: 'document'}
 ];
 
