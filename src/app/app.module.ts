@@ -10,6 +10,7 @@ import { CoreModule } from './core/core.module';
 
 import { registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
+import { HttpClientModule } from '@angular/common/http';
 // import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 registerLocaleData(localeRu);
 
@@ -21,11 +22,15 @@ registerLocaleData(localeRu);
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     CoreModule,
     SharedModule,
     DocumentModule,
   ],
-  providers: [{ provide: LOCALE_ID, useValue: 'ru' }],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'ru' },
+    // { provide: 'API_URL', useValue: environment.apiUrl },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

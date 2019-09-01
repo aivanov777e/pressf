@@ -1,0 +1,34 @@
+<mat-form-field class="w-100">
+  <input matInput #division
+    [placeholder]="placeholder"
+    [formControl]="divisionFC"
+    [required]="required"
+    [errorStateMatcher]="this"
+    [matAutocomplete]="autoSender">
+  <mat-autocomplete
+    #autoSender="matAutocomplete"
+    [displayWith]="displayFn"
+    (opened)="firstOpen = false"
+    (closed)="firstOpen = false"
+    (optionSelected)="optionSelected.emit()">
+    <mat-option *ngFor="let division of filteredDivisions | async" [value]="division">
+      {{division.name}}
+    </mat-option>
+  </mat-autocomplete>
+  <mat-error *ngIf="divisionFC.errors?.cityNotFound">
+    {{notFoundMsg}}
+  </mat-error>
+  <mat-error *ngIf="divisionFC.hasError('required')">
+    {{requiredMsg}}
+  </mat-error>
+  <button
+    mat-button 
+    *ngIf="divisionFC.value"
+    [disabled]="divisionFC.disabled"
+    matSuffix
+    mat-icon-button
+    (click)="formControlClear()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>
+
