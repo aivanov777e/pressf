@@ -7,7 +7,7 @@ import { OrderService } from 'src/app/core/services/order.service';
   styleUrls: ['./order.component.less']
 })
 export class OrderComponent implements OnInit {
-  displayedColumns: string[] = ['customer', 'division', 'contact', 'regDate', 'number'];
+  displayedColumns: string[] = ['customer', 'division', 'contact', 'regDate', 'name', 'number'];
   dataSource$;
   // dataSource = [
   //   {customer: 'ДИ', division: 'ПЧ-2', contact: 'Васечкин А.Б. 4-56-38', date: new Date('2016.01.24 18:34'), name: 'Hydrogen', id: 1},

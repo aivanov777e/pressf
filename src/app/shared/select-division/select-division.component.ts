@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, Inject, ViewChild, Optional, Self } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Inject, ViewChild, Optional, Self, AfterContentInit } from '@angular/core';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { AbstractControl, NgControl, ControlValueAccessor, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { Observable, of } from 'rxjs';
@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './select-division.component.html',
   styleUrls: ['./select-division.component.less']
 })
-export class SelectDivisionComponent  implements ControlValueAccessor, OnInit, ErrorStateMatcher {
+export class SelectDivisionComponent  implements ControlValueAccessor, OnInit, AfterContentInit { // , ErrorStateMatcher
 
   @Input() placeholder: string;
   @Input() requiredMsg: string;
@@ -27,11 +27,12 @@ export class SelectDivisionComponent  implements ControlValueAccessor, OnInit, E
   set required(value: boolean) { this._required = coerceBooleanProperty(value); }
   protected _required = false;
 
-  divisionFC: AbstractControl;
+  // divisionFC: AbstractControl;
+  divisionFC: FormControl;
   filteredDivisions: Observable<Division[]>;
   @ViewChild(MatAutocompleteTrigger, {static: false}) autocomplete: MatAutocompleteTrigger;
   notFoundMsg: string;
-  firstOpen = true;
+  // firstOpen = true;
 
   constructor(
     private divisionSrv: DivisionService,
@@ -39,41 +40,44 @@ export class SelectDivisionComponent  implements ControlValueAccessor, OnInit, E
     @Optional() @Inject(DOCUMENT) private _document: any,
   ) {
     controlDir.valueAccessor = this;
-   }
+  }
 
   ngOnInit() {
-    this.divisionFC = this.controlDir.control;
-    const validators = this.divisionFC.validator
-      ? [this.divisionFC.validator, this.notFoundValidator] : this.notFoundValidator;
-    this.divisionFC.setValidators(validators);
-    this.divisionFC.updateValueAndValidity();
+    // this.divisionFC = this.controlDir.control as FormControl;
+  }
+
+  ngAfterContentInit() {
+    this.divisionFC = this.controlDir.control as FormControl;
+    // const validators = this.divisionFC.validator
+    //   ? [this.divisionFC.validator, this.notFoundValidator] : this.notFoundValidator;
+    // this.divisionFC.setValidators(validators);
+    // this.divisionFC.updateValueAndValidity();
 
     this.filteredDivisions = this.divisionFC.valueChanges
       .pipe(
         debounceTime(environment.debounceTime),
         distinctUntilChanged(),
-        switchMap(val => this.filterDivision(val || ''))
-      );
-  }
-
-  filterDivision(val: any): Observable<any[]> {
-    if (val && val.name) {
-      return of([val]);
-    }
-    return this.divisionSrv.getList(val, this.divisionId)
-    .pipe(
-      map(response => {
-          // if (this.cities) {
-          //   response.divisions = response.divisions.filter(x => x.divisionType === DivisionType.City);
-          // }
-          if (this.firstOpen && response.length <= 1) { this.firstOpen = false; }
-          if (response.length === 1) {
-            this.divisionFC.setValue(response[0], {emitEvent: false});
-            this.optionSelected.emit();
-            this.autocomplete.closePanel();
+        switchMap(val => {
+          val = val || '';
+          if (val && val.name) {
+            return of([val]);
           }
-          return response;
-      }));
+          return this.divisionSrv.getList(val, this.divisionId)
+            .pipe(
+              map(response => {
+                // if (this.cities) {
+                //   response.divisions = response.divisions.filter(x => x.divisionType === DivisionType.City);
+                // }
+                // if (this.firstOpen && response.length <= 1) { this.firstOpen = false; }
+                // if (response.length === 1) {
+                //   this.divisionFC.setValue(response[0], {emitEvent: false});
+                //   this.optionSelected && this.optionSelected.emit();
+                //   this.autocomplete.closePanel();
+                // }
+                return response;
+            }));
+        })
+      );
   }
 
   displayFn(division?: Division): string | undefined {
@@ -86,15 +90,15 @@ export class SelectDivisionComponent  implements ControlValueAccessor, OnInit, E
     this.optionSelected.emit();
   }
 
-  notFoundValidator(control: AbstractControl): {[key: string]: any} | null {
-    return (control.value && !control.value.id) ? { cityNotFound: true } : null;
-  }
+  // notFoundValidator(control: AbstractControl): {[key: string]: any} | null {
+  //   return (control.value && !control.value.id) ? { notFound: true } : null;
+  // }
 
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && !control.valid && (control.dirty || control.touched || isSubmitted)
-      && !this.autocomplete.panelOpen && (!this.firstOpen || control.hasError('required')));
-  }
+  // isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+  //   const isSubmitted = form && form.submitted;
+  //   return !!(control && !control.valid && (control.dirty || control.touched || isSubmitted)
+  //     && !this.autocomplete.panelOpen && (!this.firstOpen || control.hasError('required')));
+  // }
 
   writeValue(value: any): void {}
   registerOnChange(fn: (_: any) => void): void {}

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Location} from '@angular/common';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { OrderService } from 'src/app/core/services/order.service';
+import { Order } from 'src/app/models/order';
 
 @Component({
   selector: 'app-order-edit',
@@ -9,9 +11,10 @@ import { FormBuilder } from '@angular/forms';
 })
 export class OrderEditComponent implements OnInit {
   orderForm = this.fb.group({
-    division: null,
-    // firstName: [null, Validators.required],
-    // lastName: [null, Validators.required],
+    division: [null, Validators.required],
+    subdivision: [null],
+    name: [null, Validators.required],
+    number: [null, Validators.required],
     // address: [null, Validators.required],
     // address2: null,
     // city: [null, Validators.required],
@@ -21,13 +24,32 @@ export class OrderEditComponent implements OnInit {
     // ],
     // shipping: ['free', Validators.required]
   });
+  // divisionFC = new FormControl('');
 
-  constructor(private location: Location, private fb: FormBuilder) { }
+  constructor(
+    private location: Location,
+    private fb: FormBuilder,
+    private orderService: OrderService,
+  ) { }
 
   ngOnInit() {
   }
 
   back() {
     this.location.back();
+  }
+
+  save() {
+    const order: Order = {
+      regDate: null,
+      name: this.orderForm.get('name').value,
+      number: this.orderForm.get('number').value,
+      divisionId: this.orderForm.get('division').value.id,
+      subdivisionId: null,
+      contactId: null,
+    };
+    this.orderService.create(order).subscribe((resp) => {
+      console.log(resp);
+    });
   }
 }

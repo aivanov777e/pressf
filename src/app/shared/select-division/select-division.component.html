@@ -2,20 +2,18 @@
   <input matInput #division
     [placeholder]="placeholder"
     [formControl]="divisionFC"
-    [required]="required"
-    [errorStateMatcher]="this"
     [matAutocomplete]="autoSender">
   <mat-autocomplete
     #autoSender="matAutocomplete"
     [displayWith]="displayFn"
     (opened)="firstOpen = false"
     (closed)="firstOpen = false"
-    (optionSelected)="optionSelected.emit()">
+    (optionSelected)="optionSelected && optionSelected.emit()">
     <mat-option *ngFor="let division of filteredDivisions | async" [value]="division">
       {{division.name}}
     </mat-option>
   </mat-autocomplete>
-  <mat-error *ngIf="divisionFC.errors?.cityNotFound">
+  <mat-error *ngIf="divisionFC.errors?.notFound">
     {{notFoundMsg}}
   </mat-error>
   <mat-error *ngIf="divisionFC.hasError('required')">

@@ -11,6 +11,7 @@
         "require-const-for-all-caps"
       ]
     },
+    "no-unused-expression": [true, "allow-fast-null-checks"],
     "array-type": false,
     "arrow-parens": false,
     "deprecation": {
