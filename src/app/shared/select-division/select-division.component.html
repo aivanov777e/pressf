@@ -5,10 +5,7 @@
     [matAutocomplete]="autoSender">
   <mat-autocomplete
     #autoSender="matAutocomplete"
-    [displayWith]="displayFn"
-    (opened)="firstOpen = false"
-    (closed)="firstOpen = false"
-    (optionSelected)="optionSelected && optionSelected.emit()">
+    [displayWith]="displayFn">
     <mat-option *ngFor="let division of filteredDivisions | async" [value]="division">
       {{division.name}}
     </mat-option>

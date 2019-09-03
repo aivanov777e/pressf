@@ -3,7 +3,7 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { AbstractControl, NgControl, ControlValueAccessor, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 // import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
-import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, map, startWith } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
 import { MatAutocompleteTrigger, ErrorStateMatcher } from '@angular/material';
 import { Division } from 'src/app/models/division';
@@ -20,7 +20,7 @@ export class SelectDivisionComponent  implements ControlValueAccessor, OnInit, A
   @Input() placeholder: string;
   @Input() requiredMsg: string;
   @Input() divisionId: string;
-  @Output() optionSelected = new EventEmitter<any>();
+  // @Output() optionSelected = new EventEmitter<any>();
 
   @Input()
   get required(): boolean { return this._required; }
@@ -32,7 +32,6 @@ export class SelectDivisionComponent  implements ControlValueAccessor, OnInit, A
   filteredDivisions: Observable<Division[]>;
   @ViewChild(MatAutocompleteTrigger, {static: false}) autocomplete: MatAutocompleteTrigger;
   notFoundMsg: string;
-  // firstOpen = true;
 
   constructor(
     private divisionSrv: DivisionService,
@@ -55,8 +54,9 @@ export class SelectDivisionComponent  implements ControlValueAccessor, OnInit, A
 
     this.filteredDivisions = this.divisionFC.valueChanges
       .pipe(
-        debounceTime(environment.debounceTime),
-        distinctUntilChanged(),
+        startWith(''),
+        // debounceTime(environment.debounceTime),
+        // distinctUntilChanged(),
         switchMap(val => {
           val = val || '';
           if (val && val.name) {
@@ -86,8 +86,10 @@ export class SelectDivisionComponent  implements ControlValueAccessor, OnInit, A
 
   formControlClear() {
     this.divisionFC.reset();
+    // this.divisionFC.setValue('');
     this.divisionFC.markAsTouched();
-    this.optionSelected.emit();
+    setTimeout(() => this.autocomplete.openPanel(), 0);
+    // this.optionSelected.emit();
   }
 
   // notFoundValidator(control: AbstractControl): {[key: string]: any} | null {

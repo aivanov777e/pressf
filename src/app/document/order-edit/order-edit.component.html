@@ -16,10 +16,15 @@
         </app-select-division>
       </div>
       <div class="row">
+        <mat-form-field class="col-6 col-xl-2">
+          <input matInput formControlName="regDate" [matDatepicker]="picker" placeholder="Дата регистрации">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
         <mat-form-field class="col-6 col-xl-5">
           <input matInput placeholder="Наименование" formControlName="name">
         </mat-form-field>
-        <mat-form-field class="col-6 col-xl-5">
+        <mat-form-field class="col-6 col-xl-2">
           <input matInput placeholder="Номер" formControlName="number">
         </mat-form-field>
     </div>

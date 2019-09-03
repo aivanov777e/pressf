@@ -5,13 +5,13 @@
   <mat-card-content>
     <table mat-table [dataSource]="dataSource$ | async" class="w-100 mat-elevation-z8">
 
-      <ng-container matColumnDef="customer">
-        <th mat-header-cell *matHeaderCellDef> Заказчик </th>
-        <td mat-cell *matCellDef="let item"> {{item.customer}} </td>
-      </ng-container>
       <ng-container matColumnDef="division">
+        <th mat-header-cell *matHeaderCellDef> Заказчик </th>
+        <td mat-cell *matCellDef="let item"> {{item['division.name']}} </td>
+      </ng-container>
+      <ng-container matColumnDef="subdivision">
         <th mat-header-cell *matHeaderCellDef> Подразделение </th>
-        <td mat-cell *matCellDef="let item"> {{item.division}} </td>
+        <td mat-cell *matCellDef="let item"> {{item['subdivision.name']}} </td>
       </ng-container>
       <ng-container matColumnDef="contact">
         <th mat-header-cell *matHeaderCellDef> Контактное лицо </th>
