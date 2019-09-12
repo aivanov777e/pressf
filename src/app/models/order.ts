@@ -1,4 +1,5 @@
 import { Division } from './division';
+import { Contact } from './contact';
 
 export interface Order {
   id?: string;
@@ -7,6 +8,8 @@ export interface Order {
   number: string;
   division: Division;
   divisionId: string;
+  subdivision: Division;
   subdivisionId: string;
+  contact: Contact;
   contactId: string;
 }

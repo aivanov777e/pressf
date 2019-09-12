@@ -8,15 +8,38 @@
         <app-select-division class="col-6 col-xl-5"
           formControlName="division"
           placeholder="Заказчик"
-          requiredMsg="Укажите заказчика">
+          requiredMsg="Укажите заказчика"
+          [loDivision]="orderForm.get('subdivision')">
         </app-select-division>
         <app-select-division class="col-6 col-xl-5"
           formControlName="subdivision"
-          placeholder="Подразделение">
+          placeholder="Подразделение"
+          [topDivision]="orderForm.get('division')">
         </app-select-division>
       </div>
       <div class="row">
-        <mat-form-field class="col-6 col-xl-2">
+        <mat-form-field class="col-6 col-xl-5">
+          <input matInput
+            placeholder="Контактное лицо"
+            formControlName="contact"
+            [matAutocomplete]="autoContact">
+          <mat-autocomplete
+            #autoContact="matAutocomplete"
+            [displayWith]="displayFn">
+            <mat-option *ngFor="let item of contact$ | async" [value]="item">
+              {{item.name}} ({{item.tel}})
+            </mat-option>
+          </mat-autocomplete>
+          <mat-error *ngIf="orderForm.get('contact').hasError('required')">
+            Укажите контактное лицо
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-6 col-xl-5">
+          <input matInput placeholder="Телефон" formControlName="contactTel">
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field class="col-3 col-xl-2">
           <input matInput formControlName="regDate" [matDatepicker]="picker" placeholder="Дата регистрации">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -24,11 +47,13 @@
         <mat-form-field class="col-6 col-xl-5">
           <input matInput placeholder="Наименование" formControlName="name">
         </mat-form-field>
-        <mat-form-field class="col-6 col-xl-2">
+        <mat-form-field class="col-3 col-xl-2">
           <input matInput placeholder="Номер" formControlName="number">
         </mat-form-field>
-    </div>
-      {{orderForm.get('division').value}}
+      </div>
+
+      Обложка
+      
     </mat-card-content>
     <mat-card-actions>
       <button mat-button (click)="back()">Вернуться</button>

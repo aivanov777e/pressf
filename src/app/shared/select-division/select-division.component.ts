@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, Inject, ViewChild, Optional, Self, AfterContentInit } from '@angular/core';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { AbstractControl, NgControl, ControlValueAccessor, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { Observable, of, merge, empty } from 'rxjs';
 // import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { debounceTime, distinctUntilChanged, switchMap, map, startWith } from 'rxjs/operators';
 import { DOCUMENT } from '@angular/common';
@@ -9,6 +9,7 @@ import { MatAutocompleteTrigger, ErrorStateMatcher } from '@angular/material';
 import { Division } from 'src/app/models/division';
 import { DivisionService } from 'src/app/core/services/division.service';
 import { environment } from 'src/environments/environment';
+import { Guid } from 'guid-typescript';
 
 @Component({
   selector: 'app-select-division',
@@ -19,8 +20,13 @@ export class SelectDivisionComponent  implements ControlValueAccessor, OnInit, A
 
   @Input() placeholder: string;
   @Input() requiredMsg: string;
-  @Input() divisionId: string;
+  // @Input() divisionId: string;
+  @Input() set topDivision(value: AbstractControl) {
+    this._topDivision = value;
+  }
+  protected _topDivision: AbstractControl;
   // @Output() optionSelected = new EventEmitter<any>();
+  @Input() loDivision: AbstractControl;
 
   @Input()
   get required(): boolean { return this._required; }
@@ -52,26 +58,44 @@ export class SelectDivisionComponent  implements ControlValueAccessor, OnInit, A
     // this.divisionFC.setValidators(validators);
     // this.divisionFC.updateValueAndValidity();
 
+    // this.filteredDivisions = merge(this.divisionFC.valueChanges, this._topDivision ? this._topDivision.valueChanges : empty())
     this.filteredDivisions = this.divisionFC.valueChanges
       .pipe(
-        startWith(''),
+        // startWith(''),
         // debounceTime(environment.debounceTime),
         // distinctUntilChanged(),
-        switchMap(val => {
-          val = val || '';
-          if (val && val.name) {
-            return of([val]);
+        switchMap((val) => {
+          // let val = this.divisionFC.value;
+          val = (val && val.name) || val;
+          // if (val && val.name) {
+          //   return of([val]);
+          // }
+
+          let divisionId;
+          if (this._topDivision) {
+            if (this._topDivision.value && this._topDivision.value.id) {
+              divisionId = this._topDivision.value.id;
+            } else {
+              return of([]);
+            }
+            // divisionId = this._topDivision.value && this._topDivision.value.id ? this._topDivision.value.id : Guid.EMPTY;
           }
-          return this.divisionSrv.getList(val, this.divisionId)
+          return this.divisionSrv.getList(val, divisionId)
             .pipe(
               map(response => {
                 // if (this.cities) {
                 //   response.divisions = response.divisions.filter(x => x.divisionType === DivisionType.City);
                 // }
                 // if (this.firstOpen && response.length <= 1) { this.firstOpen = false; }
+                const d = response.find(r => r.name === val);
+                if (d && this.divisionFC.value && this.divisionFC.value.id !== d.id) {
+                  this.divisionFC.setValue(d, {emitEvent: false});
+                  this.loDivision && this.loDivision.reset();
+                }
                 // if (response.length === 1) {
                 //   this.divisionFC.setValue(response[0], {emitEvent: false});
-                //   this.optionSelected && this.optionSelected.emit();
+                //   // this.divisionFC.setValue(response[0]);
+                //   // this.optionSelected && this.optionSelected.emit();
                 //   this.autocomplete.closePanel();
                 // }
                 return response;
