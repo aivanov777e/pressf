@@ -6,7 +6,7 @@ import { DocumentModule } from './document/document.module';
 const routes: Routes = [
   {path: 'document', loadChildren: () =>
     import('./document/document.module').then(mod => mod.DocumentModule)},
-  {path: '**', redirectTo: 'document'}
+  // {path: '**', redirectTo: 'document'}
 ];
 
 @NgModule({

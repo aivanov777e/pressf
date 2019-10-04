@@ -8,6 +8,8 @@ import { switchMap, map, tap } from 'rxjs/operators';
 import { Subject, Observable, of } from 'rxjs';
 import { Contact } from 'src/app/models/contact';
 import { ContactService } from 'src/app/core/services/contact.service';
+import { Printer } from 'src/app/models/printer';
+import { HandBookService } from 'src/app/core/services/handbook.service';
 
 @Component({
   selector: 'app-order-edit',
@@ -36,12 +38,14 @@ export class OrderEditComponent implements OnInit {
   // divisionId: string;
   // divisionId$ = new Subject<string>();
   contact$: Observable<Contact[]>;
+  printer$: Observable<Printer[]>;
 
   constructor(
     private location: Location,
     private fb: FormBuilder,
     private orderService: OrderService,
     private contactSrv: ContactService,
+    private handbookSrv: HandBookService,
     private route: ActivatedRoute,
   ) { }
 
@@ -99,6 +103,9 @@ export class OrderEditComponent implements OnInit {
             }));
         })
       );
+
+    this.printer$ = this.handbookSrv.getPrinterList(null);
+
   }
 
   fillFields(data: Order) {

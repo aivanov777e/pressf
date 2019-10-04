@@ -1,45 +1,52 @@
-<mat-card class="shipping-card">
+<h2>Заказы</h2>
+
+<table mat-table [dataSource]="dataSource$ | async" class="w-100 mat-elevation-z8">
+  <ng-container matColumnDef="division">
+    <th mat-header-cell *matHeaderCellDef> Заказчик </th>
+    <td mat-cell *matCellDef="let item"> {{item['division.name']}} </td>
+  </ng-container>
+  <ng-container matColumnDef="subdivision">
+    <th mat-header-cell *matHeaderCellDef> Подразделение </th>
+    <td mat-cell *matCellDef="let item"> {{item['subdivision.name']}} </td>
+  </ng-container>
+  <ng-container matColumnDef="contact">
+    <th mat-header-cell *matHeaderCellDef> Контактное лицо </th>
+    <td mat-cell *matCellDef="let item"> {{item['contact.name']}} ({{item['contact.tel']}}) </td>
+  </ng-container>
+  <ng-container matColumnDef="regDate">
+    <th mat-header-cell *matHeaderCellDef> Дата регистрации </th>
+    <td mat-cell *matCellDef="let item"> {{item.regDate | date:'short'}} </td>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Наименование продукции </th>
+    <td mat-cell *matCellDef="let item"> {{item.name}}
+        <!-- <a [routerLink]="['/document/order', item.id]"> {{item.name}} </a> -->
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="number">
+    <th mat-header-cell *matHeaderCellDef> Номер продукции </th>
+    <td mat-cell *matCellDef="let item"> {{item.number}}
+        <!-- <a [routerLink]="['/document/order', item.id]"> {{item.number}} </a> -->
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let item; columns: displayedColumns;" [routerLink]="['/document/order', item.id]" class="row-click"></tr>
+</table>
+
+<div class="button-row">
+  <a class="col-auto" mat-raised-button routerLink="/document/order/-1">Создать</a>
+  <!-- <button mat-raised-button color="primary" type="submit">Submit</button> -->
+</div>
+
+<!-- <mat-card class="shipping-card">
   <mat-card-header>
     <mat-card-title>Заказы</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <table mat-table [dataSource]="dataSource$ | async" class="w-100 mat-elevation-z8">
-
-      <ng-container matColumnDef="division">
-        <th mat-header-cell *matHeaderCellDef> Заказчик </th>
-        <td mat-cell *matCellDef="let item"> {{item['division.name']}} </td>
-      </ng-container>
-      <ng-container matColumnDef="subdivision">
-        <th mat-header-cell *matHeaderCellDef> Подразделение </th>
-        <td mat-cell *matCellDef="let item"> {{item['subdivision.name']}} </td>
-      </ng-container>
-      <ng-container matColumnDef="contact">
-        <th mat-header-cell *matHeaderCellDef> Контактное лицо </th>
-        <td mat-cell *matCellDef="let item"> {{item['contact.name']}} ({{item['contact.tel']}}) </td>
-      </ng-container>
-      <ng-container matColumnDef="regDate">
-        <th mat-header-cell *matHeaderCellDef> Дата регистрации </th>
-        <td mat-cell *matCellDef="let item"> {{item.regDate | date:'short'}} </td>
-      </ng-container>
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Наименование продукции </th>
-        <td mat-cell *matCellDef="let item">
-            <a [routerLink]="['/document/order', item.id]"> {{item.name}} </a>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="number">
-        <th mat-header-cell *matHeaderCellDef> Номер продукции </th>
-        <td mat-cell *matCellDef="let item">
-            <a [routerLink]="['/document/order', item.id]"> {{item.number}} </a>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
   </mat-card-content>
   <mat-card-actions>
-    <a mat-button routerLink="/document/order/-1">Создать</a>
-    <!-- <button mat-raised-button color="primary" type="submit">Submit</button> -->
+    <div class="row">
+    </div>
   </mat-card-actions>
-</mat-card>
+</mat-card> -->
