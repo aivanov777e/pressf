@@ -7,7 +7,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule, MatToolbarModule} from '@angular/material';
+import {MatNativeDateModule, MatToolbarModule, MatProgressBarModule} from '@angular/material';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -39,6 +39,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatSelectModule,
     MatRadioModule,
     MatToolbarModule,
+    MatProgressBarModule
   ],
   exports: [
     MatButtonModule,
@@ -58,6 +59,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatSelectModule,
     MatRadioModule,
     MatToolbarModule,
+    MatProgressBarModule
   ]
 })
 export class CustomMaterialModule { }
