@@ -2,20 +2,18 @@
   <h2>Заказ</h2>
 
   <div class="row">
-    <app-select-division class="col-6 col-xl-5"
+    <app-select-division class="col-6 col-lg-3"
       formControlName="division"
       placeholder="Заказчик"
       requiredMsg="Укажите заказчика"
       [loDivision]="orderForm.get('subdivision')">
     </app-select-division>
-    <app-select-division class="col-6 col-xl-5"
+    <app-select-division class="col-6 col-lg-3"
       formControlName="subdivision"
       placeholder="Подразделение"
       [topDivision]="orderForm.get('division')">
     </app-select-division>
-  </div>
-  <div class="row">
-    <mat-form-field class="col-6 col-xl-5">
+    <mat-form-field class="col-6 col-lg-3">
       <input matInput
         placeholder="Контактное лицо"
         formControlName="contact"
@@ -31,20 +29,22 @@
         Укажите контактное лицо
       </mat-error>
     </mat-form-field>
-    <mat-form-field class="col-6 col-xl-5">
+    <mat-form-field class="col-6 col-lg-3">
       <input matInput placeholder="Телефон" formControlName="contactTel">
-    </mat-form-field>
+    </mat-form-field>  </div>
+  <div class="row">
+
   </div>
   <div class="row">
-    <mat-form-field class="col-3 col-xl-2">
+    <mat-form-field class="col-6 col-lg-8">
+      <input matInput placeholder="Наименование" formControlName="name">
+    </mat-form-field>
+    <mat-form-field class="col-3 col-lg-2">
       <input matInput formControlName="regDate" [matDatepicker]="picker" placeholder="Дата регистрации">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
-    <mat-form-field class="col-6 col-xl-5">
-      <input matInput placeholder="Наименование" formControlName="name">
-    </mat-form-field>
-    <mat-form-field class="col-3 col-xl-2">
+    <mat-form-field class="col-3 col-lg-2">
       <input matInput placeholder="Номер" formControlName="number">
     </mat-form-field>
   </div>
@@ -52,15 +52,78 @@
   Обложка
 
   <div class="row">
-    <mat-form-field class="col-6 col-xl-5">
+    <mat-form-field class="col-4 col-lg-2">
       <mat-label>Печатное оборудование</mat-label>
-      <mat-select formControlName="coverPrinter">
+      <mat-select formControlName="coverPrinterId">
         <mat-option></mat-option>
-        <mat-option *ngFor="let item of printer$ | async" [value]="item">
+        <mat-option *ngFor="let item of printer$ | async" [value]="item.id">
           {{item.name}}
         </mat-option>
       </mat-select>
     </mat-form-field>
+    <mat-form-field class="col-4 col-lg-2">
+      <mat-label>Формат печатного листа</mat-label>
+      <mat-select formControlName="coverFormatId">
+        <mat-option></mat-option>
+        <mat-option *ngFor="let item of format$ | async" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="col-4 col-lg-2">
+      <mat-label>Бумага</mat-label>
+      <mat-select formControlName="coverMaterialId">
+        <mat-option></mat-option>
+        <mat-option *ngFor="let item of material$ | async" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="col-3 col-lg-2" style="display: flex;">
+      <mat-form-field style="flex: 1 1 auto; min-width: 0px;">
+        <mat-label>Цветность</mat-label>
+        <mat-select formControlName="coverColor1Id">
+          <mat-option *ngFor="let item of color$ | async" [value]="item.id">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span style="align-self: center; white-space: pre;">   +   </span>
+      <mat-form-field style="flex: 1 1 auto; min-width: 0px;">
+        <!-- <mat-label>Цветность оборот</mat-label> -->
+        <mat-select formControlName="coverColor2Id">
+          <mat-option *ngFor="let item of color$ | async" [value]="item.id">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field class="col-3 col-lg-2">
+      <input matInput placeholder="Количество печатных листов" formControlName="coverCount">
+    </mat-form-field>
+    <mat-form-field class="col-3 col-lg-2">
+      <input matInput placeholder="Количество листов на приладку" formControlName="coverCountAdj">
+    </mat-form-field>
+
+    <mat-form-field class="col-6 col-lg-3">
+      <input matInput
+        placeholder="Исполнитель"
+        formControlName="coverPerformerId"
+        [matAutocomplete]="autoContact">
+      <mat-autocomplete
+        #autoContact="matAutocomplete"
+        [displayWith]="displayFn">
+        <mat-option *ngFor="let item of performer$ | async" [value]="item.id">
+          {{item.name}} ({{item.tel}})
+        </mat-option>
+      </mat-autocomplete>
+      <!-- <mat-error *ngIf="orderForm.get('contact').hasError('required')">
+        Укажите исполнителя
+      </mat-error> -->
+    </mat-form-field>
+
   </div>
 
 

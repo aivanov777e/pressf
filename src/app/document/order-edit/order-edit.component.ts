@@ -10,6 +10,9 @@ import { Contact } from 'src/app/models/contact';
 import { ContactService } from 'src/app/core/services/contact.service';
 import { Printer } from 'src/app/models/printer';
 import { HandBookService } from 'src/app/core/services/handbook.service';
+import { Format } from 'src/app/models/format';
+import { Color } from 'src/app/models/color';
+import { Material } from 'src/app/models/material';
 
 @Component({
   selector: 'app-order-edit',
@@ -25,6 +28,14 @@ export class OrderEditComponent implements OnInit {
     regDate: [null, Validators.required],
     contact: [null, Validators.required],
     contactTel: [null, Validators.required],
+    coverPrinterId: [],
+    coverFormatId: [],
+    coverMaterialId: [],
+    coverColor1Id: [],
+    coverColor2Id: [],
+    coverCount: [],
+    coverCountAdj: [],
+    coverPerformerId: []
     // address2: null,
     // city: [null, Validators.required],
     // state: [null, Validators.required],
@@ -39,6 +50,10 @@ export class OrderEditComponent implements OnInit {
   // divisionId$ = new Subject<string>();
   contact$: Observable<Contact[]>;
   printer$: Observable<Printer[]>;
+  format$: Observable<Format[]>;
+  color$: Observable<Color[]>;
+  material$: Observable<Material[]>;
+  performer$: Observable<Contact[]>;
 
   constructor(
     private location: Location,
@@ -105,6 +120,11 @@ export class OrderEditComponent implements OnInit {
       );
 
     this.printer$ = this.handbookSrv.getPrinterList(null);
+    this.format$ = this.orderForm.get('coverPrinterId').valueChanges.pipe(
+      switchMap(() => this.handbookSrv.getFormatList(this.orderForm.get('coverPrinterId').value))
+    );
+    this.color$ = this.handbookSrv.getColorList(null);
+    this.material$ = this.handbookSrv.getMaterialList(null);
 
   }
 

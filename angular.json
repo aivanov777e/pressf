@@ -68,7 +68,7 @@
                 }
               ]
             }
-                }
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -83,7 +83,7 @@
               "hmr": true,
               "browserTarget": "pressf:build:hmr"
             }
-                }
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

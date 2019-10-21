@@ -1,3 +1,7 @@
+/* You can add global styles to this file, and also import other style files */
+
+//@import '~@angular/material/theming';
+
 // Import library functions for theme creation.
 @import '~@angular/material/theming';
 
@@ -94,9 +98,15 @@ $theme: mat-light-theme($primary, $accent);
   background-color: map-get($primary, 50); ;
 }
 
-/* You can add global styles to this file, and also import other style files */
+.button-row button,
+.button-row a {
+  margin-right: 1rem;
+  margin-top: 1rem;
+}
 
-//@import '~@angular/material/theming';
+
+
+
 
 // html { font-size: 62.5%; }
 // body { font-size: 1.6rem; }
@@ -108,6 +118,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 //@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 //@import "bootstrap/dist/css/bootstrap.min.css";
+//@import "bootstrap/scss/bootstrap-grid.scss";
+// @import "bootstrap/scss/bootstrap.scss";
+
 
 .w-100 {
   width: 100%;
@@ -610,11 +623,6 @@ h6, .h6 {
   font-size: 0.7rem;
 } 
 
-.button-row button,
-.button-row a {
-  margin-right: 1rem;
-  margin-top: 1rem;
-}
 
 // .row-click {
 //   cursor: pointer;
