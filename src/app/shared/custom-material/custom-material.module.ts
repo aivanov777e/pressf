@@ -7,7 +7,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule, MatToolbarModule, MatProgressBarModule} from '@angular/material';
+import {MatNativeDateModule, MatToolbarModule, MatProgressBarModule, MAT_DATE_FORMATS, DateAdapter, MAT_DATE_LOCALE, MatDialogModule} from '@angular/material';
+import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MatMomentDateModule} from '@angular/material-moment-adapter';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -29,7 +30,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatIconModule,
     MatDatepickerModule,
-    MatNativeDateModule,
+    //MatNativeDateModule,
+    MatMomentDateModule,
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
@@ -39,7 +41,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatSelectModule,
     MatRadioModule,
     MatToolbarModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatDialogModule
   ],
   exports: [
     MatButtonModule,
@@ -49,7 +52,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatFormFieldModule,
     MatIconModule,
     MatDatepickerModule,
-    MatNativeDateModule,
+    //MatNativeDateModule,
+    MatMomentDateModule,
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
@@ -59,7 +63,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatSelectModule,
     MatRadioModule,
     MatToolbarModule,
-    MatProgressBarModule
-  ]
-})
+    MatProgressBarModule,
+    MatDialogModule
+  ],
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+  ],})
 export class CustomMaterialModule { }

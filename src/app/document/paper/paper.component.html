@@ -1,0 +1,28 @@
+<h2>Бумага (материал)</h2>
+
+<table mat-table [dataSource]="dataSource$ | async" class="w-100 mat-elevation-z8">
+  <ng-container matColumnDef="material">
+    <th mat-header-cell *matHeaderCellDef> Материал </th>
+    <td mat-cell *matCellDef="let item"> {{item['material.name']}} </td>
+  </ng-container>
+  <ng-container matColumnDef="format">
+    <th mat-header-cell *matHeaderCellDef> Формат </th>
+    <td mat-cell *matCellDef="let item"> {{item['format.name']}} </td>
+  </ng-container>
+  <ng-container matColumnDef="density">
+    <th mat-header-cell *matHeaderCellDef> Плотность </th>
+    <td mat-cell *matCellDef="let item"> {{item.density}} </td>
+  </ng-container>
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef> Цена </th>
+    <td mat-cell *matCellDef="let item"> {{item['paperPrices.price']}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let item; columns: displayedColumns;" [routerLink]="['/document/paper', item.id]" class="row-click"></tr>
+</table>
+
+<div class="button-row">
+  <a class="col-auto" mat-raised-button routerLink="/document/paper/-1">Создать</a>
+  <!-- <button mat-raised-button color="primary" type="submit">Submit</button> -->
+</div>

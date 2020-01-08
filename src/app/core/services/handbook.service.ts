@@ -22,7 +22,7 @@ export class HandBookService {
     return this.http.get<Printer[]>(`${environment.apiUrl}api/handbook/printer`, {params});
   }
 
-  getFormatList(printerId: string): Observable<Format[]> {
+  getFormatList(printerId: string = null): Observable<Format[]> {
     const params: any = {};
     if (printerId) { params.printerId = printerId; }
     return this.http.get<Format[]>(`${environment.apiUrl}api/handbook/format`, {params});
