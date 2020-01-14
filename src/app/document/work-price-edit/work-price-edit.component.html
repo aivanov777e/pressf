@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>Укажите цену</h2>
+<div mat-dialog-content [formGroup]="fg">
+  <!-- <mat-form-field>
+    <input matInput [matDatepicker]="picker" placeholder="Начиная с даты" formControlName="startDate">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field> -->
+  <mat-form-field class="col-12">
+    <mat-label>Формат печатного листа</mat-label>
+    <mat-select formControlName="formatId">
+      <mat-option></mat-option>
+      <mat-option *ngFor="let item of format$ | async" [value]="item.id">
+        {{item.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="col-8" style="display: flex;">
+    <mat-form-field style="flex: 1 1 auto; min-width: 0px;">
+      <mat-label>Цветность</mat-label>
+      <mat-select formControlName="color1">
+        <mat-option *ngFor="let item of color$ | async" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <span style="align-self: center; white-space: pre;"> + </span>
+    <mat-form-field style="flex: 1 1 auto; min-width: 0px;">
+      <mat-select formControlName="color2">
+        <mat-option *ngFor="let item of color$ | async" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <mat-form-field class="col-7">
+    <input matInput placeholder="Тираж от" formControlName="countFrom">
+  </mat-form-field>
+  <mat-form-field class="col-7">
+    <input matInput placeholder="Цена" formControlName="price">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Отмена</button>
+  <button mat-button (click)="save()" [disabled]="fg.invalid">Ok</button>
+</div>

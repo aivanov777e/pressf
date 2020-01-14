@@ -12,6 +12,7 @@ import { Paper } from 'src/app/models/paper';
 import * as moment from 'moment';
 import { MatDialog, MatTable } from '@angular/material';
 import { PaperPriceEditComponent } from '../paper-price-edit/paper-price-edit.component';
+import { ConfirmDialogComponent, ConfirmDialogData } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-paper-edit',
@@ -69,13 +70,13 @@ export class PaperEditComponent implements OnInit {
       this.fg.get('formatId').disable();
       this.fg.get('materialId').disable();
       this.fg.get('density').disable();
-      } else {this.fg.enable()}
+      } else { this.fg.enable(); }
     //this.fG.updateValueAndValidity();
   }
 
   save() {
     this.paper.paperPrices.forEach((v, i, a) => {
-      v.endDate = a[i+1] && a[i+1].startDate;
+      v.endDate = a[i + 1] && a[i + 1].startDate;
       v.paperId = this.paper.id;
     });
     const paper: Paper = {
@@ -120,8 +121,16 @@ export class PaperEditComponent implements OnInit {
   }
 
   deletePrice(index) {
-    this.paper.paperPrices.splice(index, 1)
-    this.table.renderRows();
+    const confDialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {title: 'Внимание', message: 'Вы дейсвительно хотите удалить цену?'} as ConfirmDialogData
+    });
+
+    confDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.paper.paperPrices.splice(index, 1);
+        this.table.renderRows();
+      }
+    });
   }
 
   back() {

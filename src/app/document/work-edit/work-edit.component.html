@@ -1,1 +1,68 @@
-<p>work-edit works!</p>
+<form [formGroup]="fg" novalidate>
+  <h2>Вид работ</h2>
+
+  <div class="row">
+    <mat-form-field class="col-4 col-lg-3">
+      <input matInput placeholder="Наименование" formControlName="name">
+    </mat-form-field>
+    <!-- <mat-form-field class="col-4 col-lg-3">
+      <mat-checkbox formControlName="postPressCover">Постпечать обложки</mat-checkbox>
+    </mat-form-field> -->
+  </div>
+
+  <div class="row" style="margin-bottom: 1rem;">
+    <mat-checkbox class="col-4 col-lg-3 col-xl-2" formControlName="postPressCover">Постпечать обложки</mat-checkbox>
+    <mat-checkbox class="col-4 col-lg-3 col-xl-2" formControlName="postPressBlock">Постпечать блока</mat-checkbox>
+  </div>
+
+  <div class="row">
+    <div class="col-8 col-lg-5 col-xl-4">
+      <table mat-table [dataSource]="work?.workPrices" class="w-100 mat-elevation-z8">
+        <!-- <ng-container matColumnDef="startDate">
+          <th mat-header-cell *matHeaderCellDef> Начиная с даты </th>
+          <td mat-cell *matCellDef="let item"> {{item.startDate | date:'short'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="endDate">
+          <th mat-header-cell *matHeaderCellDef> по дату </th>
+          <td mat-cell *matCellDef="let item"> {{item.endDate | date:'short'}} </td>
+        </ng-container> -->
+        <ng-container matColumnDef="format">
+          <th mat-header-cell *matHeaderCellDef> Формат </th>
+          <td mat-cell *matCellDef="let item"> {{item.format?.name}} </td>
+        </ng-container>
+        <ng-container matColumnDef="color">
+          <th mat-header-cell *matHeaderCellDef> Цветность </th>
+          <td mat-cell *matCellDef="let item"> {{item.color1}}+{{item.color2}} </td>
+        </ng-container>
+        <ng-container matColumnDef="countFrom">
+          <th mat-header-cell *matHeaderCellDef> Тираж от </th>
+          <td mat-cell *matCellDef="let item"> {{item.countFrom}} </td>
+        </ng-container>
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef> Цена </th>
+          <td mat-cell *matCellDef="let item"> {{item.price}} </td>
+        </ng-container>
+        <ng-container matColumnDef="options">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let item; let i = index; let di = dataIndex;" style="text-align: end;">
+            <button mat-icon-button color="warn" (click)="deletePrice(i); $event.stopPropagation();">
+              <mat-icon>clear</mat-icon>
+            </button>            
+          </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let item; columns: displayedColumns; let i = index; let di = dataIndex;" (click)="editPrice(item, i)" class="row-click"></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="button-row">
+    <button mat-button (click)="back()">Вернуться</button>
+    <!-- <button mat-raised-button color="primary" type="submit">Сохранить</button> -->
+    <button mat-button color="primary" (click)="save()" [disabled]="fg.invalid">Сохранить</button>
+    <button mat-button (click)="editPrice()" [disabled]="fg.invalid">Добавить цену</button>
+  </div>
+
+</form>
+      

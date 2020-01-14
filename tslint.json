@@ -1,6 +1,7 @@
 {
   "extends": "tslint:recommended",
   "rules": {
+    "comment-format": false,
     "variable-name": {
       "options": [
         "ban-keywords",

@@ -7,5 +7,6 @@ export interface WorkPrice {
   formatId: string;
   color1: number;
   color2: number;
+  countFrom: number;
   price: number;
 }

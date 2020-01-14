@@ -31,5 +31,4 @@ export class PaperPriceEditComponent implements OnInit {
       price: this.fg.get('price').value,
     });
   }
-
 }

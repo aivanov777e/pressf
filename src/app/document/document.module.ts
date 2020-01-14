@@ -13,6 +13,7 @@ import { PaperEditComponent } from './paper-edit/paper-edit.component';
 import { PaperPriceEditComponent } from './paper-price-edit/paper-price-edit.component';
 import { WorkComponent } from './work/work.component';
 import { WorkEditComponent } from './work-edit/work-edit.component';
+import { WorkPriceEditComponent } from './work-price-edit/work-price-edit.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { WorkEditComponent } from './work-edit/work-edit.component';
     PaperEditComponent,
     PaperPriceEditComponent,
     WorkComponent,
-    WorkEditComponent
+    WorkEditComponent,
+    WorkPriceEditComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +35,8 @@ import { WorkEditComponent } from './work-edit/work-edit.component';
     SharedModule,
   ],
   entryComponents: [
-    PaperPriceEditComponent
+    PaperPriceEditComponent,
+    WorkPriceEditComponent,
   ]
 })
 export class DocumentModule { }

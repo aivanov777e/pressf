@@ -17,7 +17,7 @@ export class WorkService {
     private http: HttpClient
   ) { }
 
-  getList(): Observable<Work[]> {    
+  getList(): Observable<Work[]> {
     return this.http.get<Work[]>(`${environment.apiUrl}api/work`);
     // return of([]);
   }
@@ -34,15 +34,15 @@ export class WorkService {
     return this.http.put<any>(`${environment.apiUrl}api/work`, work); // , { observe: 'response' }
   }
 
-  createPrice(workPrice: WorkPrice): Observable<Work> {
+  createPrice(workPrice: WorkPrice): Observable<WorkPrice> {
     return this.http.post<any>(`${environment.apiUrl}api/work/price`, workPrice); // , { observe: 'response' }
   }
 
-  updatePrice(workPrice: WorkPrice): Observable<Work> {
+  updatePrice(workPrice: WorkPrice): Observable<WorkPrice> {
     return this.http.put<any>(`${environment.apiUrl}api/work/price`, workPrice); // , { observe: 'response' }
   }
 
-  deletePrice(workPrice: WorkPrice): Observable<Work> {
+  deletePrice(workPrice: WorkPrice): Observable<WorkPrice> {
     return this.http.put<any>(`${environment.apiUrl}api/work/price/delete`, workPrice); // , { observe: 'response' }
   }
 }
