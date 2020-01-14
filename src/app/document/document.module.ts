@@ -11,8 +11,8 @@ import { AdrComponent } from './adr/adr.component';
 import { PaperComponent } from './paper/paper.component';
 import { PaperEditComponent } from './paper-edit/paper-edit.component';
 import { PaperPriceEditComponent } from './paper-price-edit/paper-price-edit.component';
-import { WorkTypeComponent } from './work-type/work-type.component';
-import { WorkTypeEditComponent } from './work-type-edit/work-type-edit.component';
+import { WorkComponent } from './work/work.component';
+import { WorkEditComponent } from './work-edit/work-edit.component';
 
 @NgModule({
   declarations: [
@@ -24,8 +24,8 @@ import { WorkTypeEditComponent } from './work-type-edit/work-type-edit.component
     PaperComponent,
     PaperEditComponent,
     PaperPriceEditComponent,
-    WorkTypeComponent,
-    WorkTypeEditComponent
+    WorkComponent,
+    WorkEditComponent
   ],
   imports: [
     CommonModule,

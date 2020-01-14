@@ -7,8 +7,8 @@ import { AdrComponent } from './adr/adr.component';
 import { TabComponent } from './tab/tab.component';
 import { PaperComponent } from './paper/paper.component';
 import { PaperEditComponent } from './paper-edit/paper-edit.component';
-import { WorkTypeComponent } from './work-type/work-type.component';
-import { WorkTypeEditComponent } from './work-type-edit/work-type-edit.component';
+import { WorkComponent } from './work/work.component';
+import { WorkEditComponent } from './work-edit/work-edit.component';
 
 
 const routes: Routes = [
@@ -20,9 +20,9 @@ const routes: Routes = [
     {path: '', component: PaperComponent},
     {path: ':id', component: PaperEditComponent}
   ]},
-  {path: 'work-type', children: [
-    {path: '', component: WorkTypeComponent},
-    {path: ':id', component: WorkTypeEditComponent}
+  {path: 'work', children: [
+    {path: '', component: WorkComponent},
+    {path: ':id', component: WorkEditComponent}
   ]},
   {path: 'dash', component: DashComponent},
   {path: 'adr', component: AdrComponent},

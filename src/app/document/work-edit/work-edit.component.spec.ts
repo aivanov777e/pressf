@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WorkTypeEditComponent } from './work-type-edit.component';
+import { WorkEditComponent } from './work-edit.component';
 
-describe('WorkTypeEditComponent', () => {
-  let component: WorkTypeEditComponent;
-  let fixture: ComponentFixture<WorkTypeEditComponent>;
+describe('WorkEditComponent', () => {
+  let component: WorkEditComponent;
+  let fixture: ComponentFixture<WorkEditComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WorkTypeEditComponent ]
+      declarations: [ WorkEditComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WorkTypeEditComponent);
+    fixture = TestBed.createComponent(WorkEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
