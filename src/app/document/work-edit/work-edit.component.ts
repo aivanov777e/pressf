@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import * as moment from 'moment';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Format } from 'src/app/models/format';
 import { Work } from 'src/app/models/work';
 import { Validators, FormBuilder } from '@angular/forms';
@@ -8,7 +8,7 @@ import { MatTable, MatDialog } from '@angular/material';
 import { HandBookService } from 'src/app/core/services/handbook.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WorkService } from 'src/app/core/services/work.service';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, takeUntil } from 'rxjs/operators';
 import {Location} from '@angular/common';
 import { WorkPriceEditComponent } from '../work-price-edit/work-price-edit.component';
 import { ConfirmDialogComponent, ConfirmDialogData } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
@@ -19,7 +19,7 @@ import { WorkPrice } from 'src/app/models/work-price';
   templateUrl: './work-edit.component.html',
   styleUrls: ['./work-edit.component.less']
 })
-export class WorkEditComponent implements OnInit {
+export class WorkEditComponent implements OnInit, OnDestroy {
   //format$: Observable<Format[]> = this.handbookSrv.getFormatList();
 
   work: Work;
@@ -33,6 +33,8 @@ export class WorkEditComponent implements OnInit {
   @ViewChild(MatTable, {static: false}) table: MatTable<any>;
   displayedColumns: string[] = ['format', 'color', 'countFrom', 'price', 'options'];
 
+  private unsubscribe: Subject<void> = new Subject();
+
   constructor(
     private location: Location,
     private fb: FormBuilder,
@@ -45,6 +47,7 @@ export class WorkEditComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.pipe(
+      takeUntil(this.unsubscribe),
       switchMap(params => this.workService.get(params.get('id')))
     )
     .subscribe(data => {
@@ -72,6 +75,8 @@ export class WorkEditComponent implements OnInit {
     };
     if (this.work.id) {
       this.workService.update(work).subscribe((resp) => {
+        //this.sort(resp.workPrices);
+        resp.workPrices = this.work.workPrices;
         this.work = resp;
         this.fillFields(this.work);
       });
@@ -79,7 +84,7 @@ export class WorkEditComponent implements OnInit {
       this.workService.create(work).subscribe((resp) => {
         // this.work = resp;
         // this.fillFields(this.work);
-        this.router.navigate([resp.id], {relativeTo: this.route, replaceUrl: true}); // , queryParamsHandling: 'merge'
+        this.router.navigate([resp.id], {relativeTo: this.route.parent, replaceUrl: true}); // , queryParamsHandling: 'merge'
       });
     }
   }
@@ -87,7 +92,7 @@ export class WorkEditComponent implements OnInit {
   editPrice(price = null, index = null) {
     const dialogRef = this.dialog.open(WorkPriceEditComponent, {
       disableClose: true,
-      // width: '250px',
+      width: '400px',
       // data: {name: this.name, animal: this.animal}
       data: price || {workId: this.work.id}
     });
@@ -138,5 +143,10 @@ export class WorkEditComponent implements OnInit {
 
   back() {
     this.location.back();
+  }
+
+  public ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 }

@@ -9,6 +9,8 @@ import { PaperComponent } from './paper/paper.component';
 import { PaperEditComponent } from './paper-edit/paper-edit.component';
 import { WorkComponent } from './work/work.component';
 import { WorkEditComponent } from './work-edit/work-edit.component';
+import { EquipmentComponent } from './equipment/equipment.component';
+import { EquipmentEditComponent } from './equipment-edit/equipment-edit.component';
 
 
 const routes: Routes = [
@@ -23,6 +25,10 @@ const routes: Routes = [
   {path: 'work', children: [
     {path: '', component: WorkComponent},
     {path: ':id', component: WorkEditComponent}
+  ]},
+  {path: 'equipment', children: [
+    {path: '', component: EquipmentComponent},
+    {path: ':id', component: EquipmentEditComponent}
   ]},
   {path: 'dash', component: DashComponent},
   {path: 'adr', component: AdrComponent},

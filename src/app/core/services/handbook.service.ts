@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { of, Observable } from 'rxjs';
-import { Printer } from 'src/app/models/printer';
+import { Equipment } from 'src/app/models/equipment';
 import { Format } from 'src/app/models/format';
 import { Color } from 'src/app/models/color';
 import { Material } from 'src/app/models/material';
@@ -15,12 +15,6 @@ export class HandBookService {
   constructor(
     private http: HttpClient
   ) { }
-
-  getPrinterList(mask: string): Observable<Printer[]> {
-    const params: any = {};
-    if (mask) { params.mask = mask; }
-    return this.http.get<Printer[]>(`${environment.apiUrl}api/handbook/printer`, {params});
-  }
 
   getFormatList(printerId: string = null): Observable<Format[]> {
     const params: any = {};

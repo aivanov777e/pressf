@@ -8,11 +8,12 @@ import { switchMap, map, tap } from 'rxjs/operators';
 import { Subject, Observable, of } from 'rxjs';
 import { Contact } from 'src/app/models/contact';
 import { ContactService } from 'src/app/core/services/contact.service';
-import { Printer } from 'src/app/models/printer';
+import { Equipment } from 'src/app/models/equipment';
 import { HandBookService } from 'src/app/core/services/handbook.service';
 import { Format } from 'src/app/models/format';
 import { Color } from 'src/app/models/color';
 import { Material } from 'src/app/models/material';
+import { EquipmentService } from 'src/app/core/services/equipment.service';
 
 @Component({
   selector: 'app-order-edit',
@@ -49,7 +50,7 @@ export class OrderEditComponent implements OnInit {
   // divisionId: string;
   // divisionId$ = new Subject<string>();
   contact$: Observable<Contact[]>;
-  printer$: Observable<Printer[]>;
+  printer$: Observable<Equipment[]>;
   format$: Observable<Format[]>;
   color$: Observable<Color[]>;
   material$: Observable<Material[]>;
@@ -61,6 +62,7 @@ export class OrderEditComponent implements OnInit {
     private orderService: OrderService,
     private contactSrv: ContactService,
     private handbookSrv: HandBookService,
+    private equipmentSrv: EquipmentService,
     private route: ActivatedRoute,
   ) { }
 
@@ -119,7 +121,7 @@ export class OrderEditComponent implements OnInit {
         })
       );
 
-    this.printer$ = this.handbookSrv.getPrinterList(null);
+    this.printer$ = this.equipmentSrv.getList(null);
     this.format$ = this.orderForm.get('coverPrinterId').valueChanges.pipe(
       switchMap(() => this.handbookSrv.getFormatList(this.orderForm.get('coverPrinterId').value))
     );

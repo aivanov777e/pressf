@@ -14,6 +14,8 @@ import { PaperPriceEditComponent } from './paper-price-edit/paper-price-edit.com
 import { WorkComponent } from './work/work.component';
 import { WorkEditComponent } from './work-edit/work-edit.component';
 import { WorkPriceEditComponent } from './work-price-edit/work-price-edit.component';
+import { EquipmentEditComponent } from './equipment-edit/equipment-edit.component';
+import { EquipmentComponent } from './equipment/equipment.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { WorkPriceEditComponent } from './work-price-edit/work-price-edit.compon
     PaperPriceEditComponent,
     WorkComponent,
     WorkEditComponent,
-    WorkPriceEditComponent
+    WorkPriceEditComponent,
+    EquipmentEditComponent,
+    EquipmentComponent
   ],
   imports: [
     CommonModule,
