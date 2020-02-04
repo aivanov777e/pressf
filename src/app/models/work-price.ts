@@ -8,5 +8,6 @@ export interface WorkPrice {
   color1: number;
   color2: number;
   countFrom: number;
+  option: string;
   price: number;
 }

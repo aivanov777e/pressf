@@ -16,8 +16,11 @@ export class PaperService {
     private http: HttpClient
   ) { }
 
-  getList(at: moment.Moment): Observable<Paper[]> {    
-    return this.http.get<Paper[]>(`${environment.apiUrl}api/paper`, {params: {at: at.toISOString()}});
+  getList(params: any = {}): Observable<Paper[]> {    //at: moment.Moment, formatId = null
+    params.at = (params.at || moment()).toISOString();
+    //let params: any = {at:  at || moment()};
+    //if (formatId) {params.formatId = formatId};
+    return this.http.get<Paper[]>(`${environment.apiUrl}api/paper`, {params});//: {at: at.toISOString()}}
     // return of([]);
   }
 

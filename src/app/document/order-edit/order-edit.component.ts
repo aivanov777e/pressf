@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { OrderService } from 'src/app/core/services/order.service';
 import { Order } from 'src/app/models/order';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap, map, tap } from 'rxjs/operators';
+import { switchMap, map, tap, startWith } from 'rxjs/operators';
 import { Subject, Observable, of } from 'rxjs';
 import { Contact } from 'src/app/models/contact';
 import { ContactService } from 'src/app/core/services/contact.service';
@@ -14,6 +14,8 @@ import { Format } from 'src/app/models/format';
 import { Color } from 'src/app/models/color';
 import { Material } from 'src/app/models/material';
 import { EquipmentService } from 'src/app/core/services/equipment.service';
+import { PaperService } from 'src/app/core/services/paper.service';
+import { Paper } from 'src/app/models/paper';
 
 @Component({
   selector: 'app-order-edit',
@@ -29,14 +31,45 @@ export class OrderEditComponent implements OnInit {
     regDate: [null, Validators.required],
     contact: [null, Validators.required],
     contactTel: [null, Validators.required],
-    coverPrinterId: [],
-    coverFormatId: [],
-    coverMaterialId: [],
-    coverColor1Id: [],
-    coverColor2Id: [],
-    coverCount: [],
-    coverCountAdj: [],
-    coverPerformerId: []
+    // contact: this.fb.group({
+    //   name: [null, Validators.required],
+    //   tel: [null, Validators.required],
+    // }),
+    cover: this.fb.group({
+      contactId: [null, Validators.required],
+      equipmentId: [null, Validators.required],
+      formatId: [null, Validators.required],
+      paperId: [null, Validators.required],
+      count: [null, Validators.required],
+      countAdj: [null, Validators.required],
+      color1: [null, Validators.required],
+      color2: [null, Validators.required],
+      pricePaper: [null, Validators.required],
+      pricePress: [null, Validators.required],
+      materialId: null,
+    }),
+    block: this.fb.group({
+      contactId: [null, Validators.required],
+      equipmentId: [null, Validators.required],
+      formatId: [null, Validators.required],
+      paperId: [null, Validators.required],
+      count: [null, Validators.required],
+      countAdj: [null, Validators.required],
+      color1: [null, Validators.required],
+      color2: [null, Validators.required],
+      pricePaper: [null, Validators.required],
+      pricePress: [null, Validators.required],
+    }),
+
+
+    // coverPrinterId: [],
+    // coverFormatId: [],
+    // coverMaterialId: [],
+    // coverColor1Id: [],
+    // coverColor2Id: [],
+    // coverCount: [],
+    // coverCountAdj: [],
+    // coverPerformerId: []
     // address2: null,
     // city: [null, Validators.required],
     // state: [null, Validators.required],
@@ -50,10 +83,11 @@ export class OrderEditComponent implements OnInit {
   // divisionId: string;
   // divisionId$ = new Subject<string>();
   contact$: Observable<Contact[]>;
-  printer$: Observable<Equipment[]>;
+  equipment$: Observable<Equipment[]>;
   format$: Observable<Format[]>;
-  color$: Observable<Color[]>;
-  material$: Observable<Material[]>;
+  //color$: Observable<Color[]>;
+  material$: Observable<Paper[]>;
+  paper$: Observable<Paper[]>;
   performer$: Observable<Contact[]>;
 
   constructor(
@@ -63,6 +97,7 @@ export class OrderEditComponent implements OnInit {
     private contactSrv: ContactService,
     private handbookSrv: HandBookService,
     private equipmentSrv: EquipmentService,
+    private paperService: PaperService,
     private route: ActivatedRoute,
   ) { }
 
@@ -98,7 +133,7 @@ export class OrderEditComponent implements OnInit {
 
     this.contact$ = this.orderForm.get('contact').valueChanges
       .pipe(
-        // startWith(''),
+        startWith(''),
         // debounceTime(environment.debounceTime),
         // distinctUntilChanged(),
         switchMap((val) => {
@@ -121,23 +156,42 @@ export class OrderEditComponent implements OnInit {
         })
       );
 
-    this.printer$ = this.equipmentSrv.getList(null);
-    this.format$ = this.orderForm.get('coverPrinterId').valueChanges.pipe(
-      switchMap(() => this.handbookSrv.getFormatList(this.orderForm.get('coverPrinterId').value))
+    this.equipment$ = this.equipmentSrv.getList(null);
+    this.format$ = this.orderForm.get('cover.equipmentId').valueChanges.pipe(
+      switchMap(() => this.orderForm.get('cover.equipmentId').value ? this.handbookSrv.getFormatList(this.orderForm.get('cover.equipmentId').value) : of([]))
     );
-    this.color$ = this.handbookSrv.getColorList(null);
-    this.material$ = this.handbookSrv.getMaterialList(null);
+    //this.color$ = this.handbookSrv.getColorList(null);
+    //this.material$ = this.paperService.getList(null);
+    this.material$ = this.orderForm.get('cover.formatId').valueChanges.pipe(
+      switchMap(() => this.orderForm.get('cover.formatId').value ? this.handbookSrv.getMaterialList(this.orderForm.get('cover.formatId').value) : of([]))
+    );
+    this.paper$ = this.orderForm.get('cover.materialId').valueChanges.pipe(
+      switchMap(() => this.orderForm.get('cover.materialId').value 
+      ? this.paperService.getList({
+        formatId: this.orderForm.get('cover.formatId').value, 
+        materialId: this.orderForm.get('cover.materialId').value
+      })
+      : of([]))
+    );
 
   }
 
   fillFields(data: Order) {
-    this.orderForm.get('name').setValue(data.name);
-    this.orderForm.get('number').setValue(data.number);
-    this.orderForm.get('regDate').setValue(data.regDate || new Date());
-    this.orderForm.get('division').setValue(data.division);
-    this.orderForm.get('subdivision').setValue(data.subdivision);
-    this.orderForm.get('contact').setValue(data.contact);
-    this.orderForm.get('contactTel').setValue(data.contact && data.contact.tel);
+    //this.orderForm.setValue(data);
+    data.contactTel = data.contact && data.contact.tel;
+    this.orderForm.patchValue({
+      ...data,
+      contact: data.contact || {},
+      cover: data.cover || {},
+      block: data.block || {}
+  });
+    // this.orderForm.get('name').setValue(data.name);
+    // this.orderForm.get('number').setValue(data.number);
+    // this.orderForm.get('regDate').setValue(data.regDate || new Date());
+    // this.orderForm.get('division').setValue(data.division);
+    // this.orderForm.get('subdivision').setValue(data.subdivision);
+    // this.orderForm.get('contact').setValue(data.contact);
+    // this.orderForm.get('contactTel').setValue(data.contact && data.contact.tel);
   }
 
   back() {

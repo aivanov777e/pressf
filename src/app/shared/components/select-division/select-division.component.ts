@@ -61,7 +61,7 @@ export class SelectDivisionComponent  implements ControlValueAccessor, OnInit, A
     // this.filteredDivisions = merge(this.divisionFC.valueChanges, this._topDivision ? this._topDivision.valueChanges : empty())
     this.filteredDivisions = this.divisionFC.valueChanges
       .pipe(
-        // startWith(''),
+        startWith(''),
         // debounceTime(environment.debounceTime),
         // distinctUntilChanged(),
         switchMap((val) => {

@@ -1,5 +1,8 @@
 import { Division } from './division';
 import { Contact } from './contact';
+import { Format } from './format';
+import { OrderPress } from './order-press';
+import { OrderPostPress } from './order-post-press';
 
 export interface Order {
   id?: string;
@@ -12,4 +15,19 @@ export interface Order {
   subdivisionId: string;
   contact: Contact;
   contactId: string;
+  format: Format;
+  formatId: string;
+  cover: OrderPress;
+  coverId: string;
+  block: OrderPress;
+  blockId: string;
+  orderPostPresses?: OrderPostPress[];
+
+  count: number;
+  width: number;
+  heigth: number;
+  price: number;
+
+  // 
+  contactTel: string;
 }

@@ -16,7 +16,7 @@ export class PaperComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.dataSource$ = this.paperService.getList(moment());
+    this.dataSource$ = this.paperService.getList();//moment()
   }
 
 }

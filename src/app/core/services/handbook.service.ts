@@ -6,6 +6,7 @@ import { Equipment } from 'src/app/models/equipment';
 import { Format } from 'src/app/models/format';
 import { Color } from 'src/app/models/color';
 import { Material } from 'src/app/models/material';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,9 @@ export class HandBookService {
     private http: HttpClient
   ) { }
 
-  getFormatList(printerId: string = null): Observable<Format[]> {
+  getFormatList(equipmentId: string = null): Observable<Format[]> {
     const params: any = {};
-    if (printerId) { params.printerId = printerId; }
+    if (equipmentId) { params.equipmentId = equipmentId; }
     return this.http.get<Format[]>(`${environment.apiUrl}api/handbook/format`, {params});
   }
 
@@ -28,9 +29,10 @@ export class HandBookService {
     return this.http.get<Color[]>(`${environment.apiUrl}api/handbook/color`, {params});
   }
 
-  getMaterialList(printerId: string): Observable<Material[]> {
+  getMaterialList(formatId: string): Observable<Material[]> {
     const params: any = {};
-    // if (printerId) { params.printerId = printerId; }
+    params.at = (params.at || moment()).toISOString();
+    if (formatId) { params.formatId = formatId; }
     return this.http.get<Material[]>(`${environment.apiUrl}api/handbook/material`, {params});
   }
 }
