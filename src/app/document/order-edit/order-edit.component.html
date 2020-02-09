@@ -47,6 +47,14 @@
       <mat-error *ngIf="orderForm.get('contact').hasError('required')">
         Укажите контактное лицо
       </mat-error>
+      <button
+        mat-button 
+        *ngIf="orderForm.get('contact').value"
+        matSuffix
+        mat-icon-button
+        (click)="orderForm.get('contact').reset()">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
 
     <mat-form-field class="col-6 col-lg-3">
@@ -146,6 +154,14 @@
           {{item.name}}
         </mat-option>
       </mat-autocomplete>
+      <button
+        mat-button 
+        *ngIf="orderForm.get('cover.contact').value"
+        matSuffix
+        mat-icon-button
+        (click)="orderForm.get('cover.contact').reset()">
+        <mat-icon>close</mat-icon>
+      </button>
       <!-- <mat-error *ngIf="orderForm.get('contact').hasError('required')">
         Укажите исполнителя
       </mat-error> -->
@@ -247,6 +263,14 @@
           {{item.name}}
         </mat-option>
       </mat-autocomplete>
+      <button
+        mat-button 
+        *ngIf="orderForm.get('block.contact').value"
+        matSuffix
+        mat-icon-button
+        (click)="orderForm.get('block.contact').reset()">
+        <mat-icon>close</mat-icon>
+      </button>
       <!-- <mat-error *ngIf="orderForm.get('contact').hasError('required')">
         Укажите исполнителя
       </mat-error> -->
