@@ -19,4 +19,6 @@ export interface OrderPress {
   color2: number;
   pricePaper: number;
   pricePress: number;
+
+  color: any;
 }

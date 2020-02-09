@@ -23,10 +23,11 @@ export class HandBookService {
     return this.http.get<Format[]>(`${environment.apiUrl}api/handbook/format`, {params});
   }
 
-  getColorList(printerId: string): Observable<Color[]> {
-    const params: any = {};
+  getColorList(equipmentId: string, formatId): Observable<any[]> {
+    const params = {equipmentId, formatId}
+    //const params: any = {};
     // if (printerId) { params.printerId = printerId; }
-    return this.http.get<Color[]>(`${environment.apiUrl}api/handbook/color`, {params});
+    return this.http.get<any[]>(`${environment.apiUrl}api/handbook/color`, {params});
   }
 
   getMaterialList(formatId: string): Observable<Material[]> {

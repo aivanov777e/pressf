@@ -5,7 +5,7 @@ import { OrderService } from 'src/app/core/services/order.service';
 import { Order } from 'src/app/models/order';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap, map, tap, startWith } from 'rxjs/operators';
-import { Subject, Observable, of } from 'rxjs';
+import { Subject, Observable, of, merge } from 'rxjs';
 import { Contact } from 'src/app/models/contact';
 import { ContactService } from 'src/app/core/services/contact.service';
 import { Equipment } from 'src/app/models/equipment';
@@ -24,41 +24,47 @@ import { Paper } from 'src/app/models/paper';
 })
 export class OrderEditComponent implements OnInit {
   orderForm = this.fb.group({
+    id: undefined,
     division: [null, Validators.required],
     subdivision: [null],
     name: [null, Validators.required],
     number: [null, Validators.required],
     regDate: [null, Validators.required],
-    contact: [null, Validators.required],
-    contactTel: [null, Validators.required],
+    contact: [null],
+    contactTel: [null],
     // contact: this.fb.group({
     //   name: [null, Validators.required],
     //   tel: [null, Validators.required],
     // }),
     cover: this.fb.group({
-      contactId: [null, Validators.required],
-      equipmentId: [null, Validators.required],
-      formatId: [null, Validators.required],
-      paperId: [null, Validators.required],
-      count: [null, Validators.required],
-      countAdj: [null, Validators.required],
-      color1: [null, Validators.required],
-      color2: [null, Validators.required],
-      pricePaper: [null, Validators.required],
-      pricePress: [null, Validators.required],
+      id: undefined,
+      contact: [null],
+      equipmentId: [null],
+      formatId: [null],
+      paperId: [null],
+      count: [null],
+      countAdj: [null],
+      color: [null],
+      color1: [null],
+      color2: [null],
+      pricePaper: [null],
+      pricePress: [null],
       materialId: null,
     }),
     block: this.fb.group({
-      contactId: [null, Validators.required],
-      equipmentId: [null, Validators.required],
-      formatId: [null, Validators.required],
-      paperId: [null, Validators.required],
-      count: [null, Validators.required],
-      countAdj: [null, Validators.required],
-      color1: [null, Validators.required],
-      color2: [null, Validators.required],
-      pricePaper: [null, Validators.required],
-      pricePress: [null, Validators.required],
+      id: undefined,
+      contact: [null],
+      equipmentId: [null],
+      formatId: [null],
+      paperId: [null],
+      count: [null],
+      countAdj: [null],
+      color: [null],
+      color1: [null],
+      color2: [null],
+      pricePaper: [null],
+      pricePress: [null],
+      materialId: null,
     }),
 
 
@@ -83,12 +89,20 @@ export class OrderEditComponent implements OnInit {
   // divisionId: string;
   // divisionId$ = new Subject<string>();
   contact$: Observable<Contact[]>;
+
   equipment$: Observable<Equipment[]>;
   format$: Observable<Format[]>;
-  //color$: Observable<Color[]>;
+  color$: Observable<any[]>;
   material$: Observable<Paper[]>;
   paper$: Observable<Paper[]>;
   performer$: Observable<Contact[]>;
+
+  equipment2$: Observable<Equipment[]>;
+  format2$: Observable<Format[]>;
+  color2$: Observable<any[]>;
+  material2$: Observable<Paper[]>;
+  paper2$: Observable<Paper[]>;
+  performer2$: Observable<Contact[]>;
 
   constructor(
     private location: Location,
@@ -157,15 +171,29 @@ export class OrderEditComponent implements OnInit {
       );
 
     this.equipment$ = this.equipmentSrv.getList(null);
+    this.equipment2$ = this.equipmentSrv.getList(null);
+
     this.format$ = this.orderForm.get('cover.equipmentId').valueChanges.pipe(
+      tap(() => this.orderForm.get('cover.formatId').reset()),
       switchMap(() => this.orderForm.get('cover.equipmentId').value ? this.handbookSrv.getFormatList(this.orderForm.get('cover.equipmentId').value) : of([]))
     );
-    //this.color$ = this.handbookSrv.getColorList(null);
+    this.format2$ = this.orderForm.get('block.equipmentId').valueChanges.pipe(
+      tap(() => this.orderForm.get('block.formatId').reset()),
+      switchMap(() => this.orderForm.get('block.equipmentId').value ? this.handbookSrv.getFormatList(this.orderForm.get('block.equipmentId').value) : of([]))
+    );
+
     //this.material$ = this.paperService.getList(null);
     this.material$ = this.orderForm.get('cover.formatId').valueChanges.pipe(
+      tap(() => this.orderForm.get('cover.materialId').reset()),
       switchMap(() => this.orderForm.get('cover.formatId').value ? this.handbookSrv.getMaterialList(this.orderForm.get('cover.formatId').value) : of([]))
     );
+    this.material2$ = this.orderForm.get('block.formatId').valueChanges.pipe(
+      tap(() => this.orderForm.get('block.materialId').reset()),
+      switchMap(() => this.orderForm.get('block.formatId').value ? this.handbookSrv.getMaterialList(this.orderForm.get('block.formatId').value) : of([]))
+    );
+
     this.paper$ = this.orderForm.get('cover.materialId').valueChanges.pipe(
+      tap(() => this.orderForm.get('cover.paperId').reset()),
       switchMap(() => this.orderForm.get('cover.materialId').value 
       ? this.paperService.getList({
         formatId: this.orderForm.get('cover.formatId').value, 
@@ -173,15 +201,77 @@ export class OrderEditComponent implements OnInit {
       })
       : of([]))
     );
+    this.paper2$ = this.orderForm.get('block.materialId').valueChanges.pipe(
+      tap(() => this.orderForm.get('block.paperId').reset()),
+      switchMap(() => this.orderForm.get('block.materialId').value 
+      ? this.paperService.getList({
+        formatId: this.orderForm.get('block.formatId').value, 
+        materialId: this.orderForm.get('block.materialId').value
+      })
+      : of([]))
+    );
 
+    this.color$ = this.orderForm.get('cover.formatId').valueChanges.pipe(
+      tap(() => this.orderForm.get('cover.color').reset()),
+      switchMap(() => this.orderForm.get('cover.formatId').value 
+      ? this.handbookSrv.getColorList(this.orderForm.get('cover.equipmentId').value, this.orderForm.get('cover.formatId').value)
+      : of([]))
+    );
+    this.color2$ = this.orderForm.get('block.formatId').valueChanges.pipe(
+      tap(() => this.orderForm.get('block.color').reset()),
+      switchMap(() => this.orderForm.get('block.formatId').value 
+      ? this.handbookSrv.getColorList(this.orderForm.get('block.equipmentId').value, this.orderForm.get('block.formatId').value)
+      : of([]))
+    );
+
+    this.performer$ = this.orderForm.get('cover.contact').valueChanges.pipe(
+      startWith(''),
+      // debounceTime(environment.debounceTime),
+      // distinctUntilChanged(),
+      switchMap((val) => {
+        val = (val && val.name) || val;
+        return this.contactSrv.getList(val, null).pipe(
+          tap(response => {
+            const d = response.find(r => r.name === val);
+            if (d && this.orderForm.get('cover.contact').value.id !== d.id) {
+              this.orderForm.get('cover.contact').setValue(d, {emitEvent: false});
+            }
+          })
+        );
+      })
+    );
+    this.performer2$ = this.orderForm.get('block.contact').valueChanges.pipe(
+      startWith(''),
+      // debounceTime(environment.debounceTime),
+      // distinctUntilChanged(),
+      switchMap((val) => {
+        val = (val && val.name) || val;
+        return this.contactSrv.getList(val, null).pipe(
+          tap(response => {
+            const d = response.find(r => r.name === val);
+            if (d && this.orderForm.get('block.contact').value.id !== d.id) {
+              this.orderForm.get('block.contact').setValue(d, {emitEvent: false});
+            }
+          })
+        );
+      })
+    );
   }
 
   fillFields(data: Order) {
     //this.orderForm.setValue(data);
+    data = data || {} as Order;
     data.contactTel = data.contact && data.contact.tel;
+    if (data.cover) {
+      //data.cover.color = {name: data.cover.color1 + '+' + data.cover.color2, color1: data.cover.color1, color2: data.cover.color2}
+      data.cover.color = data.cover.color1 + '+' + data.cover.color2;
+    }
+    if (data.block) {
+      data.block.color = data.block.color1 + '+' + data.block.color2;
+    }
     this.orderForm.patchValue({
       ...data,
-      contact: data.contact || {},
+      //contact: data.contact || {},
       cover: data.cover || {},
       block: data.block || {}
   });
@@ -199,45 +289,85 @@ export class OrderEditComponent implements OnInit {
   }
 
   save() {
-    const division = this.orderForm.get('division').value;
-    const subdivision = this.orderForm.get('subdivision').value;
-    const contact = this.orderForm.get('contact').value;
-    const order: Order = {
-      ...this.order,
+    const order1 = this.orderForm.value;
+    const order2: Order = {
+      ...order1,
       ...{
-        regDate: this.orderForm.get('regDate').value,
-        name: this.orderForm.get('name').value,
-        number: this.orderForm.get('number').value,
-        division: {
-          id: division.id,
-          name: division.name || division},
-        divisionId: division.id,
-        subdivision: {
-          id: subdivision && subdivision.id,
-          name: subdivision && (subdivision.name || subdivision)},
-        subdivisionId: subdivision && subdivision.id,
-        contact: {
-          id: contact.id,
-          name: contact.name || contact,
-          tel: this.orderForm.get('contactTel').value},
-        contactId: contact.id,
+        id: order1.id || undefined,
+        divisionId: order1.division.id,
+        subdivisionId: order1.subdivision && order1.subdivision.id,
+        contactId: order1.contact && order1.contact.id,
+        cover: {...order1.cover, ...{id: order1.cover.id || undefined, contactId: order1.cover.contact && order1.cover.contact.id}},
+        block: {...order1.block, ...{id: order1.block.id || undefined, contactId: order1.block.contact && order1.block.contact.id}}
       }
     };
-    if (this.order.id) {
-      this.orderService.update(order).subscribe((resp) => {
+    if (order2.cover.color) {
+      const colors = order2.cover.color.split('+');
+      order2.cover.color1 = +colors[0];
+      order2.cover.color2 = +colors[1];
+    }
+    if (order2.block.color) {
+      const colors = order2.block.color.split('+');
+      order2.block.color1 = +colors[0];
+      order2.block.color2 = +colors[1];
+    }
+
+    if (order2.id) {
+      this.orderService.update(order2).subscribe((resp) => {
         // console.log(resp);
         this.order = resp;
         // this.order = {...this.order, ...resp};
         this.fillFields(this.order);
       });
     } else {
-      this.orderService.create(order).subscribe((resp) => {
+      this.orderService.create(order2).subscribe((resp) => {
         // console.log(resp);
         this.order = resp;
         // this.order = {...this.order, ...resp};
         this.fillFields(this.order);
       });
-    }
+    }    
+
+    // const division = this.orderForm.get('division').value;
+    // const subdivision = this.orderForm.get('subdivision').value;
+    // const contact = this.orderForm.get('contact').value;
+    // const order: Order = {
+    //   ...this.order,
+    //   ...{
+    //     regDate: this.orderForm.get('regDate').value,
+    //     name: this.orderForm.get('name').value,
+    //     number: this.orderForm.get('number').value,
+    //     division: {
+    //       id: division.id,
+    //       name: division.name || division},
+    //     divisionId: division.id,
+    //     subdivision: {
+    //       id: subdivision && subdivision.id,
+    //       name: subdivision && (subdivision.name || subdivision)},
+    //     subdivisionId: subdivision && subdivision.id,
+    //     contact: {
+    //       id: contact.id,
+    //       name: contact.name || contact,
+    //       tel: this.orderForm.get('contactTel').value},
+    //     contactId: contact.id,
+    //     //cover: 
+    //   }
+    // };
+    // if (this.order.id) {
+    //   this.orderService.update(order).subscribe((resp) => {
+    //     // console.log(resp);
+    //     this.order = resp;
+    //     // this.order = {...this.order, ...resp};
+    //     this.fillFields(this.order);
+    //   });
+    // } else {
+    //   this.orderService.create(order).subscribe((resp) => {
+    //     // console.log(resp);
+    //     this.order = resp;
+    //     // this.order = {...this.order, ...resp};
+    //     this.fillFields(this.order);
+    //   });
+    // }
   }
 
   displayFn(contact?: Contact): string | undefined {

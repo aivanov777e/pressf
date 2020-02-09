@@ -54,7 +54,7 @@
     </mat-form-field>
   </div>
 
-  Обложка
+  <h4>Обложка</h4>
 
   <div formGroupName="cover" class="row">
     <mat-form-field class="col-4 col-lg-2">
@@ -97,6 +97,16 @@
       </mat-select>
     </mat-form-field>
 
+    <mat-form-field class="col-4 col-lg-2">
+      <mat-label>Цветность</mat-label>
+      <mat-select formControlName="color">
+        <mat-option></mat-option>
+        <mat-option *ngFor="let item of color$ | async" [value]="item.name">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <!-- <div class="col-3 col-lg-2" style="display: flex;">
       <mat-form-field style="flex: 1 1 auto; min-width: 0px;">
         <mat-label>Цветность</mat-label>
@@ -127,13 +137,13 @@
     <mat-form-field class="col-6 col-lg-3">
       <input matInput
         placeholder="Исполнитель"
-        formControlName="contactId"
-        [matAutocomplete]="autoContact">
+        formControlName="contact"
+        [matAutocomplete]="autoPerformer">
       <mat-autocomplete
-        #autoContact="matAutocomplete"
+        #autoPerformer="matAutocomplete"
         [displayWith]="displayFn">
-        <mat-option *ngFor="let item of performer$ | async" [value]="item.id">
-          {{item.name}} ({{item.tel}})
+        <mat-option *ngFor="let item of performer$ | async" [value]="item">
+          {{item.name}}
         </mat-option>
       </mat-autocomplete>
       <!-- <mat-error *ngIf="orderForm.get('contact').hasError('required')">
@@ -144,6 +154,105 @@
   </div>
 
 
+
+  <h4>Блок</h4>
+
+  <div formGroupName="block" class="row">
+    <mat-form-field class="col-4 col-lg-2">
+      <mat-label>Печатное оборудование</mat-label>
+      <mat-select formControlName="equipmentId">
+        <mat-option></mat-option>
+        <mat-option *ngFor="let item of equipment2$ | async" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-4 col-lg-2">
+      <mat-label>Формат печатного листа</mat-label>
+      <mat-select formControlName="formatId">
+        <mat-option></mat-option>
+        <mat-option *ngFor="let item of format2$ | async" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-4 col-lg-2">
+      <mat-label>Материал</mat-label>
+      <mat-select formControlName="materialId">
+        <mat-option></mat-option>
+        <mat-option *ngFor="let item of material2$ | async" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-4 col-lg-2">
+      <mat-label>Плотность</mat-label>
+      <mat-select formControlName="paperId">
+        <mat-option></mat-option>
+        <mat-option *ngFor="let item of paper2$ | async" [value]="item.id">
+          {{item.density}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-4 col-lg-2">
+      <mat-label>Цветность</mat-label>
+      <mat-select formControlName="color">
+        <mat-option></mat-option>
+        <mat-option *ngFor="let item of color2$ | async" [value]="item.name">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- <div class="col-3 col-lg-2" style="display: flex;">
+      <mat-form-field style="flex: 1 1 auto; min-width: 0px;">
+        <mat-label>Цветность</mat-label>
+        <mat-select formControlName="color1">
+          <mat-option *ngFor="let item of color$ | async" [value]="item.id">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span style="align-self: center; white-space: pre;">   +   </span>
+      <mat-form-field style="flex: 1 1 auto; min-width: 0px;">
+        <mat-select formControlName="color2">
+          <mat-option *ngFor="let item of color$ | async" [value]="item.id">
+            {{item.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div> -->
+
+    <mat-form-field class="col-3 col-lg-2">
+      <input matInput placeholder="Количество печатных листов" formControlName="count">
+    </mat-form-field>
+
+    <mat-form-field class="col-3 col-lg-2">
+      <input matInput placeholder="Количество листов на приладку" formControlName="countAdj">
+    </mat-form-field>
+
+    <mat-form-field class="col-6 col-lg-3">
+      <input matInput
+        placeholder="Исполнитель"
+        formControlName="contact"
+        [matAutocomplete]="autoPerformer2">
+      <mat-autocomplete
+        #autoPerformer2="matAutocomplete"
+        [displayWith]="displayFn">
+        <mat-option *ngFor="let item of performer2$ | async" [value]="item">
+          {{item.name}}
+        </mat-option>
+      </mat-autocomplete>
+      <!-- <mat-error *ngIf="orderForm.get('contact').hasError('required')">
+        Укажите исполнителя
+      </mat-error> -->
+    </mat-form-field>
+
+  </div>
 
   <div class="button-row">
       <button mat-button (click)="back()">Вернуться</button>
