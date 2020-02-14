@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Equipment } from 'src/app/models/equipment';
 import { Validators, FormBuilder } from '@angular/forms';
-import { MatTable } from '@angular/material';
+import { MatTable } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EquipmentService } from 'src/app/core/services/equipment.service';
 import {Location} from '@angular/common';

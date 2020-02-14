@@ -10,7 +10,8 @@ import { PaperService } from 'src/app/core/services/paper.service';
 import { switchMap, tap } from 'rxjs/operators';
 import { Paper } from 'src/app/models/paper';
 import * as moment from 'moment';
-import { MatDialog, MatTable } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTable } from '@angular/material/table';
 import { PaperPriceEditComponent } from '../paper-price-edit/paper-price-edit.component';
 import { ConfirmDialogComponent, ConfirmDialogData } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
