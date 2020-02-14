@@ -36,7 +36,7 @@ export class SelectDivisionComponent  implements ControlValueAccessor, OnInit, A
   // divisionFC: AbstractControl;
   divisionFC: FormControl;
   filteredDivisions: Observable<Division[]>;
-  @ViewChild(MatAutocompleteTrigger, {static: false}) autocomplete: MatAutocompleteTrigger;
+  @ViewChild(MatAutocompleteTrigger) autocomplete: MatAutocompleteTrigger;
   notFoundMsg: string;
 
   constructor(

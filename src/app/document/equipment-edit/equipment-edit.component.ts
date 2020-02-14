@@ -30,7 +30,7 @@ export class EquipmentEditComponent implements OnInit {
 
   private unsubscribe: Subject<void> = new Subject();
 
-  @ViewChild(MatTable, {static: false}) table: MatTable<any>;
+  @ViewChild(MatTable) table: MatTable<any>;
   displayedColumns: string[] = ['select', 'name'];
 
   constructor(

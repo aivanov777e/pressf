@@ -30,7 +30,7 @@ export class WorkEditComponent implements OnInit, OnDestroy {
     postPressBlock: [null],
   });
 
-  @ViewChild(MatTable, {static: false}) table: MatTable<any>;
+  @ViewChild(MatTable) table: MatTable<any>;
   displayedColumns: string[] = ['format', 'color', 'countFrom', 'price', 'options'];
 
   private unsubscribe: Subject<void> = new Subject();

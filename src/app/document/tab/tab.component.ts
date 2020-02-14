@@ -10,9 +10,9 @@ import { TabDataSource, TabItem } from './tab-datasource';
   styleUrls: ['./tab.component.less']
 })
 export class TabComponent implements AfterViewInit, OnInit {
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
-  @ViewChild(MatTable, {static: false}) table: MatTable<TabItem>;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatTable) table: MatTable<TabItem>;
   dataSource: TabDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */

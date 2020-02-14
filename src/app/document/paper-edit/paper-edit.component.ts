@@ -31,7 +31,7 @@ export class PaperEditComponent implements OnInit {
     density: [null, [Validators.required, Validators.pattern(/^\d+$/)]],
   });
 
-  @ViewChild(MatTable, {static: false}) table: MatTable<any>;
+  @ViewChild(MatTable) table: MatTable<any>;
   displayedColumns: string[] = ['startDate', 'price', 'options'];
 
   constructor(
