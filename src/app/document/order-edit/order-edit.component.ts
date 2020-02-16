@@ -1,21 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import {Location} from '@angular/common';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { OrderService } from 'src/app/core/services/order.service';
-import { Order } from 'src/app/models/order';
-import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap, map, tap, startWith } from 'rxjs/operators';
-import { Subject, Observable, of, merge } from 'rxjs';
-import { Contact } from 'src/app/models/contact';
+import { Location } from '@angular/common';
+import { Component, OnInit, ViewChild, AfterViewInit, EventEmitter } from '@angular/core';
+import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { startWith, switchMap, tap } from 'rxjs/operators';
 import { ContactService } from 'src/app/core/services/contact.service';
-import { Equipment } from 'src/app/models/equipment';
-import { HandBookService } from 'src/app/core/services/handbook.service';
-import { Format } from 'src/app/models/format';
-import { Color } from 'src/app/models/color';
-import { Material } from 'src/app/models/material';
 import { EquipmentService } from 'src/app/core/services/equipment.service';
+import { HandBookService } from 'src/app/core/services/handbook.service';
+import { OrderService } from 'src/app/core/services/order.service';
 import { PaperService } from 'src/app/core/services/paper.service';
+import { Contact } from 'src/app/models/contact';
+import { Equipment } from 'src/app/models/equipment';
+import { Format } from 'src/app/models/format';
+import { Order } from 'src/app/models/order';
 import { Paper } from 'src/app/models/paper';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { Material } from 'src/app/models/material';
+
+// export function selectedValueValidator(): ValidatorFn {
+//   return (control: AbstractControl): {[key: string]: any} | null => {
+//     //const forbidden = nameRe.test(control.value);
+//     //return control ? {'1selectedValueValidator': {value: control.value}} : null;
+//     return null;
+//   };
+// }
 
 @Component({
   selector: 'app-order-edit',
@@ -93,16 +101,18 @@ export class OrderEditComponent implements OnInit {
   equipment$: Observable<Equipment[]>;
   format$: Observable<Format[]>;
   color$: Observable<any[]>;
-  material$: Observable<Paper[]>;
+  material$: Observable<Material[]>;
   paper$: Observable<Paper[]>;
   performer$: Observable<Contact[]>;
 
   equipment2$: Observable<Equipment[]>;
   format2$: Observable<Format[]>;
   color2$: Observable<any[]>;
-  material2$: Observable<Paper[]>;
+  material2$: Observable<Material[]>;
   paper2$: Observable<Paper[]>;
   performer2$: Observable<Contact[]>;
+
+  //@ViewChild('formatCov') formatCov: MatSelect;
 
   constructor(
     private location: Location,
@@ -174,54 +184,75 @@ export class OrderEditComponent implements OnInit {
     this.equipment2$ = this.equipmentSrv.getList(null);
 
     this.format$ = this.orderForm.get('cover.equipmentId').valueChanges.pipe(
-      //tap(() => this.orderForm.get('cover.formatId').reset()),
-      switchMap(() => this.orderForm.get('cover.equipmentId').value ? this.handbookSrv.getFormatList(this.orderForm.get('cover.equipmentId').value) : of([]))
+      switchMap(() => this.orderForm.get('cover.equipmentId').value ? this.handbookSrv.getFormatList(this.orderForm.get('cover.equipmentId').value) : of([])),
+      tap(data => {
+        if (!data.some(v => v.id === this.orderForm.get('cover.formatId').value)) { this.orderForm.get('cover.formatId').reset(); }
+      }),
     );
     this.format2$ = this.orderForm.get('block.equipmentId').valueChanges.pipe(
       //tap(() => this.orderForm.get('block.formatId').reset()),
-      switchMap(() => this.orderForm.get('block.equipmentId').value ? this.handbookSrv.getFormatList(this.orderForm.get('block.equipmentId').value) : of([]))
+      switchMap(() => this.orderForm.get('block.equipmentId').value ? this.handbookSrv.getFormatList(this.orderForm.get('block.equipmentId').value) : of([])),
+      tap(data => {
+        if (!data.some(v => v.id === this.orderForm.get('block.formatId').value)) { this.orderForm.get('block.formatId').reset(); }
+      }),
     );
 
     //this.material$ = this.paperService.getList(null);
     this.material$ = this.orderForm.get('cover.formatId').valueChanges.pipe(
       //tap(() => this.orderForm.get('cover.materialId').reset()),
-      switchMap(() => this.orderForm.get('cover.formatId').value ? this.handbookSrv.getMaterialList(this.orderForm.get('cover.formatId').value) : of([]))
+      switchMap(() => this.orderForm.get('cover.formatId').value ? this.handbookSrv.getMaterialList(this.orderForm.get('cover.formatId').value) : of([])),
+      tap(data => {
+        if (!data.some(v => v.id === this.orderForm.get('cover.materialId').value)) { this.orderForm.get('cover.materialId').reset(); }
+      }),
     );
     this.material2$ = this.orderForm.get('block.formatId').valueChanges.pipe(
       //tap(() => this.orderForm.get('block.materialId').reset()),
-      switchMap(() => this.orderForm.get('block.formatId').value ? this.handbookSrv.getMaterialList(this.orderForm.get('block.formatId').value) : of([]))
+      switchMap(() => this.orderForm.get('block.formatId').value ? this.handbookSrv.getMaterialList(this.orderForm.get('block.formatId').value) : of([])),
+      tap(data => {
+        if (!data.some(v => v.id === this.orderForm.get('block.materialId').value)) { this.orderForm.get('block.materialId').reset(); }
+      }),
     );
 
     this.paper$ = this.orderForm.get('cover.materialId').valueChanges.pipe(
       //tap(() => this.orderForm.get('cover.paperId').reset()),
-      switchMap(() => this.orderForm.get('cover.materialId').value 
-      ? this.paperService.getList({
-        formatId: this.orderForm.get('cover.formatId').value, 
-        materialId: this.orderForm.get('cover.materialId').value
-      })
-      : of([]))
+      switchMap(() => this.orderForm.get('cover.materialId').value
+        ? this.paperService.getList({formatId: this.orderForm.get('cover.formatId').value, materialId: this.orderForm.get('cover.materialId').value})
+        : of([])
+      ),
+      tap(data => {
+        if (!data.some(v => v.id === this.orderForm.get('cover.paperId').value)) { this.orderForm.get('cover.paperId').reset(); }
+      }),
     );
     this.paper2$ = this.orderForm.get('block.materialId').valueChanges.pipe(
       //tap(() => this.orderForm.get('block.paperId').reset()),
-      switchMap(() => this.orderForm.get('block.materialId').value 
-      ? this.paperService.getList({
-        formatId: this.orderForm.get('block.formatId').value, 
-        materialId: this.orderForm.get('block.materialId').value
-      })
-      : of([]))
+      switchMap(() => this.orderForm.get('block.materialId').value
+        ? this.paperService.getList({formatId: this.orderForm.get('block.formatId').value, materialId: this.orderForm.get('block.materialId').value})
+        : of([])
+      ),
+      tap(data => {
+        if (!data.some(v => v.id === this.orderForm.get('block.paperId').value)) { this.orderForm.get('block.paperId').reset(); }
+      }),
     );
 
     this.color$ = this.orderForm.get('cover.formatId').valueChanges.pipe(
       //tap(() => this.orderForm.get('cover.color').reset()),
-      switchMap(() => this.orderForm.get('cover.formatId').value 
-      ? this.handbookSrv.getColorList(this.orderForm.get('cover.equipmentId').value, this.orderForm.get('cover.formatId').value)
-      : of([]))
+      switchMap(() => this.orderForm.get('cover.formatId').value
+        ? this.handbookSrv.getColorList(this.orderForm.get('cover.equipmentId').value, this.orderForm.get('cover.formatId').value)
+        : of([])
+      ),
+      tap(data => {
+        if (!data.some(v => v.name === this.orderForm.get('cover.color').value)) { this.orderForm.get('cover.color').reset(); }
+      }),
     );
     this.color2$ = this.orderForm.get('block.formatId').valueChanges.pipe(
       //tap(() => this.orderForm.get('block.color').reset()),
-      switchMap(() => this.orderForm.get('block.formatId').value 
-      ? this.handbookSrv.getColorList(this.orderForm.get('block.equipmentId').value, this.orderForm.get('block.formatId').value)
-      : of([]))
+      switchMap(() => this.orderForm.get('block.formatId').value
+        ? this.handbookSrv.getColorList(this.orderForm.get('block.equipmentId').value, this.orderForm.get('block.formatId').value)
+        : of([])
+      ),
+      tap(data => {
+        if (!data.some(v => v.name === this.orderForm.get('block.color').value)) { this.orderForm.get('block.color').reset(); }
+      }),
     );
 
     this.performer$ = this.orderForm.get('cover.contact').valueChanges.pipe(
@@ -284,11 +315,24 @@ export class OrderEditComponent implements OnInit {
     // this.orderForm.get('contactTel').setValue(data.contact && data.contact.tel);
   }
 
+//   ngAfterViewInit() {
+//     this.formatCov.stateChanges.subscribe(res => {
+//       console.log(res);
+//     });
+//   }
+
+//   changeValue($event: EventEmitter<MatSelectChange>) {
+//     //this.__myService.myValue.next($event.value);
+//     //console.log($event);
+// }
+
   back() {
     this.location.back();
   }
 
   save() {
+    //if (!this.formatCov.toggle().au.autofilled) { return; }
+    //this.formatCov.toggle();
     const order1 = this.orderForm.value;
     const order2: Order = {
       ...order1,
@@ -305,11 +349,17 @@ export class OrderEditComponent implements OnInit {
       const colors = order2.cover.color.split('+');
       order2.cover.color1 = +colors[0];
       order2.cover.color2 = +colors[1];
+    } else {
+      order2.cover.color1 = null;
+      order2.cover.color2 = null;
     }
     if (order2.block.color) {
       const colors = order2.block.color.split('+');
       order2.block.color1 = +colors[0];
       order2.block.color2 = +colors[1];
+    } else {
+      order2.block.color1 = null;
+      order2.block.color2 = null;
     }
 
     if (order2.id) {

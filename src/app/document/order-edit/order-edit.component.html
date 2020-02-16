@@ -48,7 +48,7 @@
         Укажите контактное лицо
       </mat-error>
       <button
-        mat-button 
+        mat-button
         *ngIf="orderForm.get('contact').value"
         matSuffix
         mat-icon-button
@@ -68,7 +68,7 @@
     <mat-form-field class="col-4 col-lg-2">
       <mat-label>Печатное оборудование</mat-label>
       <mat-select formControlName="equipmentId">
-        <mat-option></mat-option>
+        <mat-option [value]="null"></mat-option>
         <mat-option *ngFor="let item of equipment$ | async" [value]="item.id">
           {{item.name}}
         </mat-option>
@@ -78,7 +78,6 @@
     <mat-form-field class="col-4 col-lg-2">
       <mat-label>Формат печатного листа</mat-label>
       <mat-select formControlName="formatId">
-        <mat-option></mat-option>
         <mat-option *ngFor="let item of format$ | async" [value]="item.id">
           {{item.name}}
         </mat-option>
@@ -88,7 +87,6 @@
     <mat-form-field class="col-4 col-lg-2">
       <mat-label>Материал</mat-label>
       <mat-select formControlName="materialId">
-        <mat-option></mat-option>
         <mat-option *ngFor="let item of material$ | async" [value]="item.id">
           {{item.name}}
         </mat-option>
@@ -98,7 +96,6 @@
     <mat-form-field class="col-4 col-lg-2">
       <mat-label>Плотность</mat-label>
       <mat-select formControlName="paperId">
-        <mat-option></mat-option>
         <mat-option *ngFor="let item of paper$ | async" [value]="item.id">
           {{item.density}}
         </mat-option>
@@ -108,7 +105,6 @@
     <mat-form-field class="col-4 col-lg-2">
       <mat-label>Цветность</mat-label>
       <mat-select formControlName="color">
-        <mat-option></mat-option>
         <mat-option *ngFor="let item of color$ | async" [value]="item.name">
           {{item.name}}
         </mat-option>
@@ -155,7 +151,7 @@
         </mat-option>
       </mat-autocomplete>
       <button
-        mat-button 
+        mat-button
         *ngIf="orderForm.get('cover.contact').value"
         matSuffix
         mat-icon-button
@@ -167,6 +163,24 @@
       </mat-error> -->
     </mat-form-field>
 
+    <!-- <table mat-table [dataSource]="orderPostPresses" class="w-100 mat-elevation-z8">
+      <ng-container matColumnDef="work">
+        <th mat-header-cell *matHeaderCellDef> Дата регистрации </th>
+        <td mat-cell *matCellDef="let item"> {{item.work.name}} </td>
+      </ng-container>
+      <ng-container matColumnDef="option">
+        <th mat-header-cell *matHeaderCellDef> Наименование продукции </th>
+        <td mat-cell *matCellDef="let item"> {{item.option}}</td>
+      </ng-container>
+      <ng-container matColumnDef="contact">
+        <th mat-header-cell *matHeaderCellDef> Контактное лицо </th>
+        <td mat-cell *matCellDef="let item"> {{item['contact.name']}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let item; columns: displayedColumns;" [routerLink]="['/document/order', item.id]" class="row-click"></tr>
+    </table> -->
+
   </div>
 
 
@@ -177,7 +191,7 @@
     <mat-form-field class="col-4 col-lg-2">
       <mat-label>Печатное оборудование</mat-label>
       <mat-select formControlName="equipmentId">
-        <mat-option></mat-option>
+        <mat-option [value]="null"></mat-option>
         <mat-option *ngFor="let item of equipment2$ | async" [value]="item.id">
           {{item.name}}
         </mat-option>
@@ -264,7 +278,7 @@
         </mat-option>
       </mat-autocomplete>
       <button
-        mat-button 
+        mat-button
         *ngIf="orderForm.get('block.contact').value"
         matSuffix
         mat-icon-button
@@ -292,7 +306,7 @@
       <mat-card-title>Заказ</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      
+
     </mat-card-content>
     <mat-card-actions>
     </mat-card-actions>
