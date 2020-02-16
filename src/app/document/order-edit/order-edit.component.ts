@@ -174,26 +174,26 @@ export class OrderEditComponent implements OnInit {
     this.equipment2$ = this.equipmentSrv.getList(null);
 
     this.format$ = this.orderForm.get('cover.equipmentId').valueChanges.pipe(
-      tap(() => this.orderForm.get('cover.formatId').reset()),
+      //tap(() => this.orderForm.get('cover.formatId').reset()),
       switchMap(() => this.orderForm.get('cover.equipmentId').value ? this.handbookSrv.getFormatList(this.orderForm.get('cover.equipmentId').value) : of([]))
     );
     this.format2$ = this.orderForm.get('block.equipmentId').valueChanges.pipe(
-      tap(() => this.orderForm.get('block.formatId').reset()),
+      //tap(() => this.orderForm.get('block.formatId').reset()),
       switchMap(() => this.orderForm.get('block.equipmentId').value ? this.handbookSrv.getFormatList(this.orderForm.get('block.equipmentId').value) : of([]))
     );
 
     //this.material$ = this.paperService.getList(null);
     this.material$ = this.orderForm.get('cover.formatId').valueChanges.pipe(
-      tap(() => this.orderForm.get('cover.materialId').reset()),
+      //tap(() => this.orderForm.get('cover.materialId').reset()),
       switchMap(() => this.orderForm.get('cover.formatId').value ? this.handbookSrv.getMaterialList(this.orderForm.get('cover.formatId').value) : of([]))
     );
     this.material2$ = this.orderForm.get('block.formatId').valueChanges.pipe(
-      tap(() => this.orderForm.get('block.materialId').reset()),
+      //tap(() => this.orderForm.get('block.materialId').reset()),
       switchMap(() => this.orderForm.get('block.formatId').value ? this.handbookSrv.getMaterialList(this.orderForm.get('block.formatId').value) : of([]))
     );
 
     this.paper$ = this.orderForm.get('cover.materialId').valueChanges.pipe(
-      tap(() => this.orderForm.get('cover.paperId').reset()),
+      //tap(() => this.orderForm.get('cover.paperId').reset()),
       switchMap(() => this.orderForm.get('cover.materialId').value 
       ? this.paperService.getList({
         formatId: this.orderForm.get('cover.formatId').value, 
@@ -202,7 +202,7 @@ export class OrderEditComponent implements OnInit {
       : of([]))
     );
     this.paper2$ = this.orderForm.get('block.materialId').valueChanges.pipe(
-      tap(() => this.orderForm.get('block.paperId').reset()),
+      //tap(() => this.orderForm.get('block.paperId').reset()),
       switchMap(() => this.orderForm.get('block.materialId').value 
       ? this.paperService.getList({
         formatId: this.orderForm.get('block.formatId').value, 
@@ -212,13 +212,13 @@ export class OrderEditComponent implements OnInit {
     );
 
     this.color$ = this.orderForm.get('cover.formatId').valueChanges.pipe(
-      tap(() => this.orderForm.get('cover.color').reset()),
+      //tap(() => this.orderForm.get('cover.color').reset()),
       switchMap(() => this.orderForm.get('cover.formatId').value 
       ? this.handbookSrv.getColorList(this.orderForm.get('cover.equipmentId').value, this.orderForm.get('cover.formatId').value)
       : of([]))
     );
     this.color2$ = this.orderForm.get('block.formatId').valueChanges.pipe(
-      tap(() => this.orderForm.get('block.color').reset()),
+      //tap(() => this.orderForm.get('block.color').reset()),
       switchMap(() => this.orderForm.get('block.formatId').value 
       ? this.handbookSrv.getColorList(this.orderForm.get('block.equipmentId').value, this.orderForm.get('block.formatId').value)
       : of([]))
@@ -326,7 +326,7 @@ export class OrderEditComponent implements OnInit {
         // this.order = {...this.order, ...resp};
         this.fillFields(this.order);
       });
-    }    
+    }
 
     // const division = this.orderForm.get('division').value;
     // const subdivision = this.orderForm.get('subdivision').value;
@@ -350,7 +350,7 @@ export class OrderEditComponent implements OnInit {
     //       name: contact.name || contact,
     //       tel: this.orderForm.get('contactTel').value},
     //     contactId: contact.id,
-    //     //cover: 
+    //     //cover:
     //   }
     // };
     // if (this.order.id) {
