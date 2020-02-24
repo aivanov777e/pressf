@@ -16,6 +16,7 @@ import { WorkEditComponent } from './work-edit/work-edit.component';
 import { WorkPriceEditComponent } from './work-price-edit/work-price-edit.component';
 import { EquipmentEditComponent } from './equipment-edit/equipment-edit.component';
 import { EquipmentComponent } from './equipment/equipment.component';
+import { OrderPostPressEditComponent } from './order-post-press-edit/order-post-press-edit.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { EquipmentComponent } from './equipment/equipment.component';
     WorkEditComponent,
     WorkPriceEditComponent,
     EquipmentEditComponent,
-    EquipmentComponent
+    EquipmentComponent,
+    OrderPostPressEditComponent
   ],
   imports: [
     CommonModule,

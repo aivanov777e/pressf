@@ -6,12 +6,14 @@ import { SelectDivisionComponent } from './components/select-division/select-div
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { PressEditComponent } from './components/press-edit/press-edit.component';
 
 @NgModule({
   declarations: [
     SelectDivisionComponent,
     NavigationComponent,
     ConfirmDialogComponent,
+    PressEditComponent,
   ],
   imports: [
     CommonModule,
@@ -28,6 +30,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
     CustomMaterialModule,
     SelectDivisionComponent,
     NavigationComponent,
+    PressEditComponent,
   ],
   entryComponents: [
     ConfirmDialogComponent

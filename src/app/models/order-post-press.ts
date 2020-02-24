@@ -1,7 +1,7 @@
 import { Work } from './work';
 import { Contact } from './contact';
 
-export enum WorkType {'cover', 'block'};
+export enum WorkType {cover = 'cover', block = 'block'}
 export interface OrderPostPress {
   contact: Contact;
   contactId: string;

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Equipment } from 'src/app/models/equipment';
 import { Validators, FormBuilder } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
@@ -18,7 +18,7 @@ import { HandBookService } from 'src/app/core/services/handbook.service';
   templateUrl: './equipment-edit.component.html',
   styleUrls: ['./equipment-edit.component.less']
 })
-export class EquipmentEditComponent implements OnInit {
+export class EquipmentEditComponent implements OnInit, OnDestroy{
   equipment: Equipment = {} as Equipment;
   work$: Observable<Work[]> = this.workSrv.getList();
   format$: Observable<Format[]> = this.handbookSrv.getFormatList();
@@ -94,7 +94,7 @@ export class EquipmentEditComponent implements OnInit {
   toggle(f) {
     const ef = this.equipment.equipmentFormats || [];
     const index = ef.findIndex(v => v.formatId === f.id);
-    if (index >= 0) { ef.splice(index, 1); } else { ef.push({formatId: f.id, equipmentId: this.equipment.id}); } 
+    if (index >= 0) { ef.splice(index, 1); } else { ef.push({formatId: f.id, equipmentId: this.equipment.id}); }
     this.equipment.equipmentFormats = ef;
     this.table.renderRows();
   }

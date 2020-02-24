@@ -2,6 +2,7 @@ import { Contact } from './contact';
 import { Equipment } from './equipment';
 import { Paper } from './paper';
 import { Format } from './format';
+import { OrderPostPress } from './order-post-press';
 
 export interface OrderPress {
   contact: Contact;
@@ -12,6 +13,7 @@ export interface OrderPress {
   formatId: string;
   paper: Paper;
   paperId: string;
+  postPress?: OrderPostPress[];
 
   count: number;
   countAdj: number;

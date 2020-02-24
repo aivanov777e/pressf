@@ -28,6 +28,9 @@ registerLocaleData(localeRu);
     SharedModule,
     DocumentModule,
   ],
+  exports: [
+    SharedModule,
+  ],
   providers: [
     { provide: LOCALE_ID, useValue: 'ru' },
     // { provide: 'API_URL', useValue: environment.apiUrl },

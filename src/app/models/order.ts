@@ -21,13 +21,13 @@ export interface Order {
   coverId: string;
   block: OrderPress;
   blockId: string;
-  orderPostPresses?: OrderPostPress[];
+  postPress?: OrderPostPress[];
 
   count: number;
   width: number;
   heigth: number;
   price: number;
 
-  // 
+  //
   contactTel: string;
 }
