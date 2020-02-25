@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatPaginatorIntlRu } from './mat-paginator-intl-ru';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [],
@@ -48,7 +49,8 @@ import { MatPaginatorIntlRu } from './mat-paginator-intl-ru';
     MatToolbarModule,
     MatProgressBarModule,
     MatDialogModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSnackBarModule
   ],
   exports: [
     MatButtonModule,
@@ -71,7 +73,8 @@ import { MatPaginatorIntlRu } from './mat-paginator-intl-ru';
     MatToolbarModule,
     MatProgressBarModule,
     MatDialogModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSnackBarModule
   ],
   providers: [
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
