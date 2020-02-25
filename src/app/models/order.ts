@@ -21,7 +21,7 @@ export interface Order {
   coverId: string;
   block: OrderPress;
   blockId: string;
-  postPress?: OrderPostPress[];
+  //postPress?: OrderPostPress[];
 
   count: number;
   width: number;

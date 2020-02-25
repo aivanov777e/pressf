@@ -5,6 +5,7 @@ import { Format } from './format';
 import { OrderPostPress } from './order-post-press';
 
 export interface OrderPress {
+  id?: string;
   contact: Contact;
   contactId: string;
   equipment: Equipment;

@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../confirm-dialog/confirm-dialog.component';
 import { MatTable } from '@angular/material/table';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { OrderPostPress } from 'src/app/models/order-post-press';
 
 @Component({
   selector: 'app-press-edit',
@@ -43,6 +44,9 @@ export class PressEditComponent implements OnInit {
   material$: Observable<Material[]>;
   paper$: Observable<Paper[]>;
   performer$: Observable<Contact[]>;
+  postPress$: Observable<OrderPostPress[]>;
+
+  trigger: MatAutocompleteTrigger;
 
   fg = this.fb.group({
       id: undefined,
@@ -58,6 +62,7 @@ export class PressEditComponent implements OnInit {
       pricePaper: [null],
       pricePress: [null],
       materialId: null,
+      postPress: null,
     });
 
   constructor(
@@ -108,7 +113,7 @@ export class PressEditComponent implements OnInit {
 
     this.performer$ = this.fg.get('contact').valueChanges.pipe(
       startWith(''),
-      //debounceTime(500),
+      //debounceTime(1500),
       // distinctUntilChanged(),
       switchMap((val) => {
         val = (val && val.name) || val;
@@ -118,8 +123,17 @@ export class PressEditComponent implements OnInit {
             if (d && this.fg.get('contact').value.id !== d.id) {
               this.fg.get('contact').setValue(d, {emitEvent: false});
             }
+            this.showAutocompletePanel();
           })
         );
+      })
+    );
+
+    this.postPress$ = this.fg.get('postPress').valueChanges.pipe(
+      //switchMap((val: any[]) => val.filter(v => v.op !== 'd'))
+      switchMap((val: OrderPostPress[]) => {
+        const m = val.filter(v => v.crud !== 'd');
+        return of(m);
       })
     );
   }
@@ -136,42 +150,57 @@ export class PressEditComponent implements OnInit {
       data: postPress || {}
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: OrderPostPress) => {
       if (result) {
+        result.id = result.id || undefined;
+        result.orderPressId = this.press.id || undefined;
         if (postPress) {
-          this.press.postPress[index] = result;
+          this.press.postPress[index] = {...result, crud: 'u'};
         } else {
-          this.press.postPress.push(result);
+          this.press.postPress.push({...result, crud: 'i'});
         }
         //this.press.postPress.sort((a, b) => moment(a.startDate).valueOf() - moment(b.startDate).valueOf());
-        this.table.renderRows();
+        //this.table.renderRows();
+        this.fg.get('postPress').updateValueAndValidity();
       }
     });
   }
 
-  deletePostPress(index) {
+  deletePostPress(index, postPress) {
     const confDialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: {title: 'Внимание', message: 'Вы дейсвительно хотите удалить?'} as ConfirmDialogData
+      data: {title: 'Внимание', message: `Вы дейсвительно хотите удалить "${postPress.work.name}"?`} as ConfirmDialogData
     });
 
     confDialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.press.postPress.splice(index, 1);
-        this.table.renderRows();
+        // this.press.postPress.splice(index, 1);
+        // this.table.renderRows();
+        postPress.crud = 'd';
+        this.fg.get('postPress').updateValueAndValidity();
       }
     });
   }
 
-  clearField(name, trig: MatAutocompleteTrigger) {
+  clearField(name, trig: MatAutocompleteTrigger, el) {
     //trig.closePanel();
     this.fg.get(name).reset();
+    this.trigger = trig;
     //trig.panelClosingActions.subscribe((v) => console.log(v));
     //trig.openPanel();
-    setTimeout(() => {
-      //this.fg.get(name).reset();
-      trig.openPanel();
-      //trig..blur();
-    });
+    //el.blur();
+    // setTimeout(() => {
+    //   //el.blur();
+    //   //this.fg.get(name).reset();
+    //   //trig.openPanel();
+    //   //trig..blur();
+    // });
     //trig.writeValue(null);
+  }
+
+  showAutocompletePanel() {
+    if (this.trigger) {
+      this.trigger.openPanel();
+      this.trigger = null;
+    }
   }
 }

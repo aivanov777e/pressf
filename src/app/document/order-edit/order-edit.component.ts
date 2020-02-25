@@ -300,8 +300,8 @@ export class OrderEditComponent implements OnInit {
     //this.orderForm.setValue(data);
     data = data || {} as Order;
 
-    data.cover.postPress = data.postPress.filter((v) => v.workType === WorkType.cover);
-    data.block.postPress = data.postPress.filter((v) => v.workType === WorkType.block);
+    // data.cover.postPress = data.postPress.filter((v) => v.workType === WorkType.cover);
+    // data.block.postPress = data.postPress.filter((v) => v.workType === WorkType.block);
     data.contactTel = data.contact && data.contact.tel;
 
     this.order = data;
