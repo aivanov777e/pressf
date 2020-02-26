@@ -12,6 +12,7 @@ import { registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingStateInterceptor } from './core/interceptors/loading-state.interceptor';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 // import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 registerLocaleData(localeRu);
 
@@ -34,6 +35,7 @@ registerLocaleData(localeRu);
   providers: [
     { provide: LOCALE_ID, useValue: 'ru' },
     // { provide: 'API_URL', useValue: environment.apiUrl },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingStateInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
