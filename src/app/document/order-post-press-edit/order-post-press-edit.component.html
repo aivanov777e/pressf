@@ -4,7 +4,6 @@
     <mat-form-field class="col-12">
       <mat-label>Вид работ</mat-label>
       <mat-select formControlName="work" [compareWith]="compareFn">
-        <mat-option></mat-option>
         <mat-option *ngFor="let item of work$ | async" [value]="item">
           {{item.name}}
         </mat-option>
@@ -12,11 +11,11 @@
     </mat-form-field>
   </div>
 
-  <div class="row">
+  <!-- <div class="row">
     <mat-form-field class="col-10">
       <input matInput placeholder="Параметр" formControlName="option">
     </mat-form-field>
-  </div>
+  </div> -->
 
   <div class="row">
     <mat-form-field class="col-10">

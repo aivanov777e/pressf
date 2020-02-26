@@ -17,8 +17,10 @@ export class WorkService {
     private http: HttpClient
   ) { }
 
-  getList(): Observable<Work[]> {
-    return this.http.get<Work[]>(`${environment.apiUrl}api/work`);
+  getList(postPressTypeId: string = null): Observable<Work[]> {
+    const params: any = {};
+    if (postPressTypeId) { params.postPressTypeId = postPressTypeId; }
+    return this.http.get<Work[]>(`${environment.apiUrl}api/work`, {params});
     // return of([]);
   }
 

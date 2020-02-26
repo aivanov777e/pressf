@@ -36,4 +36,8 @@ export class HandBookService {
     if (formatId) { params.formatId = formatId; }
     return this.http.get<Material[]>(`${environment.apiUrl}api/handbook/material`, {params});
   }
+
+  getPostPressTypeList(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiUrl}api/handbook/postPressType`);
+  }
 }

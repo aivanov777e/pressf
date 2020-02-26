@@ -26,6 +26,7 @@ import { OrderPostPress } from 'src/app/models/order-post-press';
 })
 export class PressEditComponent implements OnInit {
   @Input() name: string;
+  @Input() postPressType: string;
 
   _press: OrderPress = {} as OrderPress;
   @Input()
@@ -143,11 +144,13 @@ export class PressEditComponent implements OnInit {
   }
 
   editPostPress(postPress = null, index = null) {
+    const data = postPress || {};
+    data.postPressTypeId = this.postPressType;
     const dialogRef = this.dialog.open(OrderPostPressEditComponent, {
       disableClose: true,
       //width: '250px',
       //data: {name: this.name, animal: this.animal}
-      data: postPress || {}
+      data
     });
 
     dialogRef.afterClosed().subscribe((result: OrderPostPress) => {

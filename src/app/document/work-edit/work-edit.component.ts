@@ -22,13 +22,15 @@ import { WorkPrice } from 'src/app/models/work-price';
 })
 export class WorkEditComponent implements OnInit, OnDestroy {
   //format$: Observable<Format[]> = this.handbookSrv.getFormatList();
+  postPressType$: Observable<any[]> = this.handbookSrv.getPostPressTypeList();
 
   work: Work;
 
   fg = this.fb.group({
     name: [null, Validators.required],
-    postPressCover: [null],
-    postPressBlock: [null],
+    // postPressCover: [null],
+    // postPressBlock: [null],
+    postPressTypeId: [-1],
   });
 
   @ViewChild(MatTable) table: MatTable<any>;
@@ -39,7 +41,7 @@ export class WorkEditComponent implements OnInit, OnDestroy {
   constructor(
     private location: Location,
     private fb: FormBuilder,
-    //private handbookSrv: HandBookService,
+    private handbookSrv: HandBookService,
     private route: ActivatedRoute,
     private router: Router,
     private workService: WorkService,
@@ -62,16 +64,18 @@ export class WorkEditComponent implements OnInit, OnDestroy {
 
   fillFields(data: Work) {
     this.fg.get('name').setValue(data.name);
-    this.fg.get('postPressCover').setValue(data.postPressCover);
-    this.fg.get('postPressBlock').setValue(data.postPressBlock);
+    // this.fg.get('postPressCover').setValue(data.postPressCover);
+    // this.fg.get('postPressBlock').setValue(data.postPressBlock);
+    this.fg.get('postPressTypeId').setValue(data.postPressTypeId);
   }
 
   save() {
     const work: Work = {
       id: this.work.id,
       name: this.fg.get('name').value,
-      postPressCover: this.fg.get('postPressCover').value,
-      postPressBlock: this.fg.get('postPressBlock').value,
+      // postPressCover: this.fg.get('postPressCover').value,
+      // postPressBlock: this.fg.get('postPressBlock').value,
+      postPressTypeId: this.fg.get('postPressTypeId').value,
       workPrices: this.work.workPrices
     };
     if (this.work.id) {

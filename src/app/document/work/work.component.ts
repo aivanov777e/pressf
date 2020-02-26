@@ -7,7 +7,7 @@ import { WorkService } from 'src/app/core/services/work.service';
   styleUrls: ['./work.component.less']
 })
 export class WorkComponent implements OnInit {
-  displayedColumns: string[] = ['name'];
+  displayedColumns: string[] = ['name', 'postPressType'];
   dataSource$;
 
   constructor(

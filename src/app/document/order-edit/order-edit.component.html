@@ -62,8 +62,8 @@
     </mat-form-field>
   </div>
 
-  <app-press-edit #cover name="Обложка" [press]="order.cover"></app-press-edit>
-  <app-press-edit #block name="Блок" [press]="order.block"></app-press-edit>
+  <app-press-edit #cover name="Обложка" [press]="order.cover" postPressType="1"></app-press-edit>
+  <app-press-edit #block name="Блок" [press]="order.block" postPressType="2"></app-press-edit>
 
   <div class="button-row">
       <button mat-button (click)="back()">Вернуться</button>

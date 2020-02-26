@@ -20,11 +20,11 @@ export class OrderPostPressEditComponent implements OnInit {
     work: [null, Validators.required],
     option: null,
     contact: [null, Validators.required],
-    
+
     id: null
   });
 
-  work$: Observable<Work[]> = this.workSrv.getList();
+  work$: Observable<Work[]> = this.workSrv.getList(this.data.postPressTypeId);
   performer$: Observable<Contact[]>;
 
   trigger: MatAutocompleteTrigger;
