@@ -1,10 +1,21 @@
 <h2 mat-dialog-title>Укажите вид постпечати</h2>
 <div mat-dialog-content [formGroup]="fg" style="min-width: 500px;">
   <div class="row">
-    <mat-form-field class="col-12">
+    <mat-form-field class="col-10">
       <mat-label>Вид работ</mat-label>
       <mat-select formControlName="work" [compareWith]="compareFn">
         <mat-option *ngFor="let item of work$ | async" [value]="item">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field class="col-10">
+      <mat-label>Цветность</mat-label>
+      <mat-select formControlName="color">
+        <mat-option *ngFor="let item of color$ | async" [value]="item.name">
           {{item.name}}
         </mat-option>
       </mat-select>

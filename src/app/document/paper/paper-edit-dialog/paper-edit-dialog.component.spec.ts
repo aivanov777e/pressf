@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PressEditComponent } from './press-edit.component';
+import { PaperEditDialogComponent } from './paper-edit-dialog.component';
 
-describe('PressEditComponent', () => {
-  let component: PressEditComponent;
-  let fixture: ComponentFixture<PressEditComponent>;
+describe('PaperEditDialogComponent', () => {
+  let component: PaperEditDialogComponent;
+  let fixture: ComponentFixture<PaperEditDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PressEditComponent ]
+      declarations: [ PaperEditDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PressEditComponent);
+    fixture = TestBed.createComponent(PaperEditDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

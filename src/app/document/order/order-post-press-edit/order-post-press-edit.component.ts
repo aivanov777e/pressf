@@ -3,12 +3,13 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { WorkService } from 'src/app/core/services/work.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Work } from 'src/app/models/work';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { startWith, switchMap, tap } from 'rxjs/operators';
 import { ContactService } from 'src/app/core/services/contact.service';
 import { Contact } from 'src/app/models/contact';
+import { HandBookService } from 'src/app/core/services/handbook.service';
 
 @Component({
   selector: 'app-order-post-press-edit',
@@ -18,6 +19,7 @@ import { Contact } from 'src/app/models/contact';
 export class OrderPostPressEditComponent implements OnInit {
   fg = this.fb.group({
     work: [null, Validators.required],
+    color: null,
     option: null,
     contact: [null, Validators.required],
 
@@ -26,6 +28,7 @@ export class OrderPostPressEditComponent implements OnInit {
 
   work$: Observable<Work[]> = this.workSrv.getList(this.data.postPressTypeId);
   performer$: Observable<Contact[]>;
+  color$: Observable<any[]>;
 
   trigger: MatAutocompleteTrigger;
 
@@ -35,9 +38,12 @@ export class OrderPostPressEditComponent implements OnInit {
     private fb: FormBuilder,
     private workSrv: WorkService,
     private contactSrv: ContactService,
+    private handbookSrv: HandBookService,
   ) { }
 
   ngOnInit(): void {
+    this.data.color = this.data.color1 &&  this.data.color1 + '+' + this.data.color2;
+
     this.performer$ = this.fg.get('contact').valueChanges.pipe(
       startWith(this.data.contact || ''),
       //debounceTime(1500),
@@ -55,6 +61,17 @@ export class OrderPostPressEditComponent implements OnInit {
         );
       })
     );
+
+    this.color$ = this.fg.get('work').valueChanges.pipe(
+      startWith(this.data.work || null),
+      switchMap((work) => work ?
+      this.handbookSrv.getColorList({workId: work.id})
+      : of([])),
+      tap(data => {
+        if (!data.some(v => v.name === this.fg.get('color').value)) { this.fg.get('color').reset(); }
+      }),
+    );
+
     //setTimeout(() => this.fg.patchValue(this.data));
     this.fg.patchValue(this.data);
   }
@@ -64,8 +81,18 @@ export class OrderPostPressEditComponent implements OnInit {
   }
 
   save() {
-    const pp = this.fg.value;
-    this.dialogRef.close({...this.fg.value, contactId: pp.contact.id, workId: pp.work.id});
+    let pp = this.fg.value;
+    pp = {...pp, contactId: pp.contact.id, workId: pp.work.id};
+    if (pp.color) {
+      const colors = pp.color.split('+');
+      pp.color1 = +colors[0];
+      pp.color2 = +colors[1];
+    } else {
+      pp.color1 = null;
+      pp.color2 = null;
+    }
+
+    this.dialogRef.close(pp);
   }
 
   clearField(name, trig: MatAutocompleteTrigger) {

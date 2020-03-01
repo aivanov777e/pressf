@@ -110,6 +110,10 @@
       <th mat-header-cell *matHeaderCellDef> Постпечать </th>
       <td mat-cell *matCellDef="let item"> {{item.work.name}} </td>
     </ng-container>
+    <ng-container matColumnDef="color">
+      <th mat-header-cell *matHeaderCellDef> Цветность </th>
+      <td mat-cell *matCellDef="let item"> {{item.color1 ? item.color1 + '+' : ''}}{{item.color2}} </td>
+    </ng-container>
     <ng-container matColumnDef="option">
       <th mat-header-cell *matHeaderCellDef > Параметр </th>
       <td mat-cell *matCellDef="let item"> {{item.option}}</td>
@@ -131,8 +135,8 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="['work', 'option', 'contact', 'options']"></tr>
-    <tr mat-row *matRowDef="let item; columns: ['work', 'option', 'contact', 'options'];let i = index; let di = dataIndex;" (click)="editPostPress(item, i)" class="row-click"></tr>
+    <tr mat-header-row *matHeaderRowDef="['work', 'color', 'contact', 'options']"></tr>
+    <tr mat-row *matRowDef="let item; columns: ['work', 'color', 'contact', 'options'];let i = index; let di = dataIndex;" (click)="editPostPress(item, i)" class="row-click"></tr>
   </table>
 
 </div>

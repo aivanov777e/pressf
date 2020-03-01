@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { OrderComponent } from './order/order.component';
-import { OrderEditComponent } from './order-edit/order-edit.component';
+import { OrderComponent } from './order/order/order.component';
+import { OrderEditComponent } from './order/order-edit/order-edit.component';
 import { DashComponent } from './dash/dash.component';
 import { AdrComponent } from './adr/adr.component';
 import { TabComponent } from './tab/tab.component';
-import { PaperComponent } from './paper/paper.component';
-import { PaperEditComponent } from './paper-edit/paper-edit.component';
-import { WorkComponent } from './work/work.component';
-import { WorkEditComponent } from './work-edit/work-edit.component';
+import { PaperComponent } from './paper/paper/paper.component';
+import { PaperEditComponent } from './paper/paper-edit/paper-edit.component';
+import { WorkComponent } from './work/work/work.component';
+import { WorkEditComponent } from './work/work-edit/work-edit.component';
 import { EquipmentComponent } from './equipment/equipment.component';
 import { EquipmentEditComponent } from './equipment-edit/equipment-edit.component';
 

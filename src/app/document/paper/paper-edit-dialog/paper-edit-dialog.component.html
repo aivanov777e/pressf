@@ -1,0 +1,91 @@
+<h2 mat-dialog-title>Бумага (материал)</h2>
+<div mat-dialog-content [formGroup]="fg" style="min-width: 500px;">
+
+  <div class="row">
+    <mat-form-field class="col-12">
+      <mat-label>Материал</mat-label>
+      <mat-select formControlName="materialId">
+        <mat-option *ngFor="let item of material$ | async" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field class="col-12">
+      <mat-label>Формат печатного листа</mat-label>
+      <mat-select formControlName="formatId">
+        <mat-option></mat-option>
+        <mat-option *ngFor="let item of format$ | async" [value]="item.id">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field class="col-12">
+      <input matInput placeholder="Плотность" formControlName="density">
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field class="col-12">
+      <input matInput placeholder="Цена" formControlName="price">
+    </mat-form-field>
+  </div>
+
+  <!-- <div class="row">
+    <mat-form-field class="col-10">
+      <mat-label>Вид работ</mat-label>
+      <mat-select formControlName="work" [compareWith]="compareFn">
+        <mat-option *ngFor="let item of work$ | async" [value]="item">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field class="col-10">
+      <mat-label>Цветность</mat-label>
+      <mat-select formControlName="color">
+        <mat-option *ngFor="let item of color$ | async" [value]="item.name">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field class="col-10">
+      <input matInput
+        #contactTrig="matAutocompleteTrigger"
+        (blur)="trigger = null"
+        placeholder="Исполнитель"
+        formControlName="contact"
+        [matAutocomplete]="autoPerformer">
+      <mat-autocomplete
+        #autoPerformer="matAutocomplete"
+        [displayWith]="displayFn">
+        <mat-option *ngFor="let item of performer$ | async" [value]="item">
+          {{item.name}}
+        </mat-option>
+      </mat-autocomplete>
+      <button
+        mat-button
+        *ngIf="fg.get('contact').value"
+        matSuffix
+        mat-icon-button
+        (click)="clearField('contact', contactTrig);">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div> -->
+
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="save()" [disabled]="fg.invalid">Ok</button>
+  <button mat-button mat-dialog-close>Отмена</button>
+</div>

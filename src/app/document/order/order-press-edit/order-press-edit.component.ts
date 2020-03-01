@@ -12,19 +12,19 @@ import { HandBookService } from 'src/app/core/services/handbook.service';
 import { EquipmentService } from 'src/app/core/services/equipment.service';
 import { PaperService } from 'src/app/core/services/paper.service';
 import { startWith, switchMap, tap, debounceTime } from 'rxjs/operators';
-import { OrderPostPressEditComponent } from 'src/app/document/order-post-press-edit/order-post-press-edit.component';
+import { OrderPostPressEditComponent } from 'src/app/document/order/order-post-press-edit/order-post-press-edit.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent, ConfirmDialogData } from '../confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent, ConfirmDialogData } from '../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { MatTable } from '@angular/material/table';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { OrderPostPress } from 'src/app/models/order-post-press';
 
 @Component({
   selector: 'app-press-edit',
-  templateUrl: './press-edit.component.html',
-  styleUrls: ['./press-edit.component.scss']
+  templateUrl: './order-press-edit.component.html',
+  styleUrls: ['./order-press-edit.component.scss']
 })
-export class PressEditComponent implements OnInit {
+export class OrderPressEditComponent implements OnInit {
   @Input() name: string;
   @Input() postPressType: string;
 
@@ -104,7 +104,7 @@ export class PressEditComponent implements OnInit {
 
     this.color$ = this.fg.get('formatId').valueChanges.pipe(
       switchMap(() => this.fg.get('formatId').value
-        ? this.handbookSrv.getColorList(this.fg.get('equipmentId').value, this.fg.get('formatId').value)
+        ? this.handbookSrv.getColorList({equipmentId: this.fg.get('equipmentId').value, formatId: this.fg.get('formatId').value})
         : of([])
       ),
       tap(data => {

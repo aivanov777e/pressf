@@ -60,6 +60,32 @@
     <mat-form-field class="col-6 col-lg-3">
       <input matInput placeholder="Телефон" formControlName="contactTel">
     </mat-form-field>
+
+    <mat-form-field class="col-3 col-lg-2">
+      <input matInput placeholder="Тираж" formControlName="countOfItem">
+    </mat-form-field>
+
+    <mat-form-field class="col-3 col-lg-2">
+      <mat-label>Формат готового изделия</mat-label>
+      <mat-select formControlName="format" [compareWith]="compareFn">
+        <mat-option *ngFor="let item of format$ | async" [value]="item">
+          {{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="col-3 col-lg-2">
+      <input matInput placeholder="Ширина готового изделия" formControlName="width">
+    </mat-form-field>
+
+    <mat-form-field class="col-3 col-lg-2">
+      <input matInput placeholder="Высота готового изделия" formControlName="height">
+    </mat-form-field>
+
+    <mat-form-field class="col-3 col-lg-2">
+      <input matInput placeholder="Листов в одном экз. изделия" formControlName="sheetsInItem">
+    </mat-form-field>
+
   </div>
 
   <app-press-edit #cover name="Обложка" [press]="order.cover" postPressType="1"></app-press-edit>

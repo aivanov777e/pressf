@@ -14,7 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class WorkPriceEditComponent implements OnInit, OnDestroy {
   format$: Observable<Format[]> = this.handbookSrv.getFormatList();
-  color$ = of([0, 1, 2, 3, 4]);
+  color$ = of([null, 0, 1, 2, 3, 4]);
 
   fg = this.fb.group({
     //startDate: [null, Validators.required],
@@ -27,7 +27,7 @@ export class WorkPriceEditComponent implements OnInit, OnDestroy {
   });
 
   private unsubscribe: Subject<void> = new Subject();
-  
+
   constructor(
     public dialogRef: MatDialogRef<WorkPriceEditComponent>,
     @Inject(MAT_DIALOG_DATA) public data: WorkPrice,
@@ -38,9 +38,9 @@ export class WorkPriceEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.fg.get('adjustment').valueChanges.pipe(takeUntil(this.unsubscribe)).subscribe(v => {
       //if (v) { this.fg.get('countFrom').setValue(null, { emitEvent: false }); }
-      if (v) { 
+      if (v) {
         this.fg.get('countFrom').disable();
-        this.fg.get('countFrom').setValue(null); 
+        this.fg.get('countFrom').setValue(null);
       } else {
         this.fg.get('countFrom').enable();
       }
@@ -58,7 +58,7 @@ export class WorkPriceEditComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    this.dialogRef.close({
+    const ret = {
       id: this.data.id,
       workId: this.data.workId,
       formatId: this.fg.get('formatId').value,
@@ -66,7 +66,8 @@ export class WorkPriceEditComponent implements OnInit, OnDestroy {
       color2: this.fg.get('color2').value,
       countFrom: this.fg.get('countFrom').value,
       price: this.fg.get('price').value,
-    });
+    };
+    this.dialogRef.close(ret);
   }
 
   public ngOnDestroy() {

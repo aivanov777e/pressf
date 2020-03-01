@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild, AfterViewInit, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, of, merge } from 'rxjs';
 import { startWith, switchMap, tap } from 'rxjs/operators';
 import { ContactService } from 'src/app/core/services/contact.service';
 import { EquipmentService } from 'src/app/core/services/equipment.service';
@@ -17,7 +17,7 @@ import { Paper } from 'src/app/models/paper';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { Material } from 'src/app/models/material';
 import { MatDialog } from '@angular/material/dialog';
-import { PressEditComponent } from 'src/app/shared/components/press-edit/press-edit.component';
+import { OrderPressEditComponent } from 'src/app/document/order/order-press-edit/order-press-edit.component';
 import { WorkType } from 'src/app/models/order-post-press';
 
 // export function selectedValueValidator(): ValidatorFn {
@@ -43,40 +43,47 @@ export class OrderEditComponent implements OnInit {
     regDate: [null, Validators.required],
     contact: [null],
     contactTel: [null],
+
+    countOfItem: null,
+    sheetsInItem: null,
+    format: null,
+    formatId: null,
+    width: null,
+    height: null,
     // contact: this.fb.group({
     //   name: [null, Validators.required],
     //   tel: [null, Validators.required],
     // }),
-    cover: this.fb.group({
-      id: undefined,
-      contact: [null],
-      equipmentId: [null],
-      formatId: [null],
-      paperId: [null],
-      count: [null],
-      countAdj: [null],
-      color: [null],
-      color1: [null],
-      color2: [null],
-      pricePaper: [null],
-      pricePress: [null],
-      materialId: null,
-    }),
-    block: this.fb.group({
-      id: undefined,
-      contact: [null],
-      equipmentId: [null],
-      formatId: [null],
-      paperId: [null],
-      count: [null],
-      countAdj: [null],
-      color: [null],
-      color1: [null],
-      color2: [null],
-      pricePaper: [null],
-      pricePress: [null],
-      materialId: null,
-    }),
+    // cover: this.fb.group({
+    //   id: undefined,
+    //   contact: [null],
+    //   equipmentId: [null],
+    //   formatId: [null],
+    //   paperId: [null],
+    //   count: [null],
+    //   countAdj: [null],
+    //   color: [null],
+    //   color1: [null],
+    //   color2: [null],
+    //   pricePaper: [null],
+    //   pricePress: [null],
+    //   materialId: null,
+    // }),
+    // block: this.fb.group({
+    //   id: undefined,
+    //   contact: [null],
+    //   equipmentId: [null],
+    //   formatId: [null],
+    //   paperId: [null],
+    //   count: [null],
+    //   countAdj: [null],
+    //   color: [null],
+    //   color1: [null],
+    //   color2: [null],
+    //   pricePaper: [null],
+    //   pricePress: [null],
+    //   materialId: null,
+    // }),
 
 
 
@@ -98,26 +105,26 @@ export class OrderEditComponent implements OnInit {
   });
   // divisionFC = new FormControl('');
   order: Order = {} as Order;
-  @ViewChild('cover') private coverComp: PressEditComponent;
-  @ViewChild('block') private blockComp: PressEditComponent;
+  @ViewChild('cover') private coverComp: OrderPressEditComponent;
+  @ViewChild('block') private blockComp: OrderPressEditComponent;
 
   // divisionId: string;
   // divisionId$ = new Subject<string>();
   contact$: Observable<Contact[]>;
 
-  equipment$: Observable<Equipment[]>;
-  format$: Observable<Format[]>;
-  color$: Observable<any[]>;
-  material$: Observable<Material[]>;
-  paper$: Observable<Paper[]>;
-  performer$: Observable<Contact[]>;
+  // equipment$: Observable<Equipment[]>;
+  format$: Observable<Format[]> = this.handbookSrv.getFormatList();
+  // color$: Observable<any[]>;
+  // material$: Observable<Material[]>;
+  // paper$: Observable<Paper[]>;
+  // performer$: Observable<Contact[]>;
 
-  equipment2$: Observable<Equipment[]>;
-  format2$: Observable<Format[]>;
-  color2$: Observable<any[]>;
-  material2$: Observable<Material[]>;
-  paper2$: Observable<Paper[]>;
-  performer2$: Observable<Contact[]>;
+  // equipment2$: Observable<Equipment[]>;
+  // format2$: Observable<Format[]>;
+  // color2$: Observable<any[]>;
+  // material2$: Observable<Material[]>;
+  // paper2$: Observable<Paper[]>;
+  // performer2$: Observable<Contact[]>;
 
   //@ViewChild('formatCov') formatCov: MatSelect;
 
@@ -162,30 +169,39 @@ export class OrderEditComponent implements OnInit {
       } else { this.orderForm.get('contactTel').reset(); }
     });
 
-    this.contact$ = this.orderForm.get('contact').valueChanges
-      .pipe(
-        startWith(''),
-        // debounceTime(environment.debounceTime),
-        // distinctUntilChanged(),
-        switchMap((val) => {
-          val = (val && val.name) || val;
-          const division = this.orderForm.get('division').value;
-          const subdivision = this.orderForm.get('subdivision').value;
-          const divisionId = subdivision ? subdivision.id : (division && division.id);
-          if (!divisionId) {
-            return of([]);
-          }
-          return this.contactSrv.getList(val, divisionId)
-            .pipe(
-              tap(response => {
-                const d = response.find(r => r.name === val);
-                if (d && this.orderForm.get('contact').value.id !== d.id) {
-                  this.orderForm.get('contact').setValue(d, {emitEvent: false});
-                  this.orderForm.get('contactTel').setValue(d.tel, {emitEvent: false});
-                }
-            }));
-        })
-      );
+    this.contact$ = this.orderForm.get('contact').valueChanges.pipe(
+      startWith(''),
+      // debounceTime(environment.debounceTime),
+      // distinctUntilChanged(),
+      switchMap((val) => {
+        val = (val && val.name) || val;
+        const division = this.orderForm.get('division').value;
+        const subdivision = this.orderForm.get('subdivision').value;
+        const divisionId = subdivision ? subdivision.id : (division && division.id);
+        if (!divisionId) {
+          return of([]);
+        }
+        return this.contactSrv.getList(val, divisionId).pipe(
+          tap(response => {
+            const d = response.find(r => r.name === val);
+            if (d && this.orderForm.get('contact').value.id !== d.id) {
+              this.orderForm.get('contact').setValue(d, {emitEvent: false});
+              this.orderForm.get('contactTel').setValue(d.tel, {emitEvent: false});
+            }
+          })
+        );
+      })
+    );
+
+    this.orderForm.get('format').valueChanges.subscribe(format => {
+      if (format) {
+        this.orderForm.patchValue({formatId: format.id, width: format.width, height: format.height}, {emitEvent: false});
+      }
+    });
+
+    merge(this.orderForm.get('width').valueChanges, this.orderForm.get('height').valueChanges).subscribe(v => {
+      this.orderForm.patchValue({formatId: null, format: null}, {emitEvent: false});
+    });
 
   //   this.equipment$ = this.equipmentSrv.getList(null);
   //   this.equipment2$ = this.equipmentSrv.getList(null);
@@ -319,7 +335,7 @@ export class OrderEditComponent implements OnInit {
     //   // cover: data.cover || {},
     //   // block: data.block || {}
     // });
-    this.orderForm.patchValue(data);
+    this.orderForm.patchValue(data, {emitEvent: false});
     // this.orderForm.get('name').setValue(data.name);
     // this.orderForm.get('number').setValue(data.number);
     // this.orderForm.get('regDate').setValue(data.regDate || new Date());
@@ -441,6 +457,9 @@ export class OrderEditComponent implements OnInit {
     return contact ? contact.name : undefined;
   }
 
+  compareFn(option, value): boolean {
+    return option && value ? option.id === value.id : option === value;
+  }
   // editPostPress(price = null, index = null) {
   //   const dialogRef = this.dialog.open(PaperPriceEditComponent, {
   //     disableClose: true,
