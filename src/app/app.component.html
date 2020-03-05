@@ -20,9 +20,14 @@
 
 <!-- <div *ngIf="loading">Loader</div> -->
 <!-- <mat-progress-bar mode="indeterminate" *ngIf="loading" style="position: fixed;"></mat-progress-bar> -->
-<mat-progress-bar mode="indeterminate" *ngIf="loadingStateService.state$ | async" style="position: fixed;"></mat-progress-bar>
 
-<app-navigation></app-navigation>
-<div style="padding: 1.5rem 1.5rem 1rem;">
-  <router-outlet></router-outlet>
+<div [class.isPrinting]="printService.isPrinting">
+  <mat-progress-bar mode="indeterminate" *ngIf="loadingStateService.state$ | async" style="position: fixed;"></mat-progress-bar>
+
+  <app-navigation></app-navigation>
+  <div style="padding: 1.5rem 1.5rem 1rem;">
+    <router-outlet></router-outlet>
+  </div>
+
+  <router-outlet name="print"></router-outlet>
 </div>

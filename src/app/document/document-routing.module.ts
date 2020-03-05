@@ -11,6 +11,8 @@ import { WorkComponent } from './work/work/work.component';
 import { WorkEditComponent } from './work/work-edit/work-edit.component';
 import { EquipmentComponent } from './equipment/equipment.component';
 import { EquipmentEditComponent } from './equipment-edit/equipment-edit.component';
+import { PrintLayoutComponent } from './print/print-layout/print-layout.component';
+import { PrintPassportComponent } from './print/print-passport/print-passport.component';
 
 
 const routes: Routes = [
@@ -30,6 +32,11 @@ const routes: Routes = [
     {path: '', component: EquipmentComponent},
     {path: ':id', component: EquipmentEditComponent}
   ]},
+  { path: 'print', outlet: 'print', component: PrintLayoutComponent,
+    children: [
+      { path: 'passport/:id', component: PrintPassportComponent }
+    ]
+  },
   {path: 'dash', component: DashComponent},
   {path: 'adr', component: AdrComponent},
   {path: 'tab', component: TabComponent},

@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit, ViewChild, AfterViewInit, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of, merge } from 'rxjs';
 import { startWith, switchMap, tap } from 'rxjs/operators';
 import { ContactService } from 'src/app/core/services/contact.service';
@@ -19,6 +19,7 @@ import { Material } from 'src/app/models/material';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderPressEditComponent } from 'src/app/document/order/order-press-edit/order-press-edit.component';
 import { WorkType } from 'src/app/models/order-post-press';
+import { PrintService } from 'src/app/core/services/print.service';
 
 // export function selectedValueValidator(): ValidatorFn {
 //   return (control: AbstractControl): {[key: string]: any} | null => {
@@ -137,7 +138,9 @@ export class OrderEditComponent implements OnInit {
     private equipmentSrv: EquipmentService,
     private paperService: PaperService,
     private route: ActivatedRoute,
+    private router: Router,
     public dialog: MatDialog,
+    private printService: PrintService
   ) { }
 
   ngOnInit() {
@@ -459,6 +462,10 @@ export class OrderEditComponent implements OnInit {
 
   compareFn(option, value): boolean {
     return option && value ? option.id === value.id : option === value;
+  }
+
+  onPrintPassport() {
+    this.printService.printDocument('passport', this.order.id, this.order);
   }
   // editPostPress(price = null, index = null) {
   //   const dialogRef = this.dialog.open(PaperPriceEditComponent, {

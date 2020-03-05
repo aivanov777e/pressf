@@ -94,8 +94,9 @@
   <div class="button-row">
       <button mat-button (click)="back()">Вернуться</button>
       <!-- <button mat-raised-button color="primary" type="submit">Сохранить</button> -->
-      <button mat-raised-button color="primary" (click)="save()" [disabled]="!orderForm.valid">Сохранить</button>
-  </div>
+      <button mat-button color="primary" (click)="save()" [disabled]="!orderForm.valid">Сохранить</button>
+      <button mat-button (click)="onPrintPassport()">Печать</button>
+    </div>
 
 
 

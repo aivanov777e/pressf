@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoadingStateService } from './core/services/loading-state.service';
+import { PrintService } from './core/services/print.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,10 @@ export class AppComponent implements OnInit, OnDestroy {
   loading = true;
   subsLoading;
 
-  constructor(public loadingStateService: LoadingStateService) { }
+  constructor(
+    public loadingStateService: LoadingStateService,
+    public printService: PrintService
+  ) { }
 
   ngOnInit() {
     // this.subsLoading = this.loadingService.state

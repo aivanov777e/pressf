@@ -19,6 +19,8 @@ import { EquipmentComponent } from './equipment/equipment.component';
 import { OrderPostPressEditComponent } from './order/order-post-press-edit/order-post-press-edit.component';
 import { PaperEditDialogComponent } from './paper/paper-edit-dialog/paper-edit-dialog.component';
 import { OrderPressEditComponent } from './order/order-press-edit/order-press-edit.component';
+import { PrintLayoutComponent } from './print/print-layout/print-layout.component';
+import { PrintPassportComponent } from './print/print-passport/print-passport.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { OrderPressEditComponent } from './order/order-press-edit/order-press-ed
     EquipmentComponent,
     OrderPostPressEditComponent,
     PaperEditDialogComponent,
-    OrderPressEditComponent
+    OrderPressEditComponent,
+    PrintLayoutComponent,
+    PrintPassportComponent
   ],
   imports: [
     CommonModule,

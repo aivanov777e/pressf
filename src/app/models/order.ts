@@ -23,7 +23,9 @@ export interface Order {
   blockId: string;
   //postPress?: OrderPostPress[];
 
-  count: number;
+  countOfItem: number;
+  sheetsInItem: number;
+  //count: number;
   width: number;
   heigth: number;
   price: number;

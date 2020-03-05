@@ -648,6 +648,10 @@ h6, .h6 {
   color: white !important;
 }
 
+@media print {
+  .isPrinting > * { display: none; }
+  .isPrinting app-print-layout { display: block; }
+}
 
 // .row-click {
 //   cursor: pointer;
