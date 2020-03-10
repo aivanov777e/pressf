@@ -1,6 +1,86 @@
-Паспорт на изготовление полиграфической продукции
-№ паспорта {{order.number}}
-Заказчик {{order.division?.name}} {{order.subdivision?.name}} {{order.contact?.name}} {{order.contact?.tel}}
-Наименование продукции {{order.name}}
-тираж {{order.countOfItem}}
-{{order.name}}
+<div class="row pf">
+  <div class="col-8">
+    <div class="row">
+      <h4 class="col">Паспорт на изготовление полиграфической продукции</h4>
+    </div>
+    <div class="row">
+      <div class="col-5"> № паспорта </div>
+      <div class="col-7"> {{order.number}} </div>
+    </div>
+    <div class="row">
+      <div class="col-5"> Заказчик </div>
+      <div class="col-7"> {{order.division?.name}} {{order.subdivision?.name}} {{order.contact?.name}} {{order.contact?.tel}} </div>
+    </div>
+    <div class="row">
+      <div class="col-5"> Наименование продукции </div>
+      <div class="col-7"> {{order.name}} </div>
+    </div>
+    <div class="row">
+      <div class="col-5"> тираж </div>
+      <div class="col-7"> {{order.countOfItem}} </div>
+    </div>
+
+    <div class="row">
+      <h4 class="col"> Обложка </h4>
+    </div>
+    <div class="row">
+      <div class="col-5"> бумага </div>
+      <div class="col-7"> {{order.cover.material.name}} </div>
+    </div>
+    <div class="row">
+      <div class="col-5"> плотность </div>
+      <div class="col-7"> {{order.cover.paper.density}} </div>
+    </div>
+    <div class="row">
+      <div class="col-5"> формат </div>
+      <div class="col-7"> {{order.cover.format.name}} </div>
+    </div>
+    <div class="row">
+      <div class="col-5"> цветность </div>
+      <div class="col-7"> {{order.cover.color}} </div>
+    </div>
+    <div class="row">
+      <div class="col-5"> печатная машина </div>
+      <div class="col-7"> {{order.cover.equipment.name}} </div>
+    </div>
+    <div class="row">
+      <div class="col-5"> кол-во печатных листов </div>
+      <div class="col-7"> {{order.cover.count}} </div>
+    </div>
+    <div class="row">
+      <div class="col-5"> бумага на приладку/брак </div>
+      <div class="col-7"> {{order.cover.countAdj}} </div>
+    </div>
+    <div class="row">
+      <div class="col-5"> исполнитель </div>
+      <div class="col-7"> {{order.cover.contact.name}} </div>
+    </div>
+    <div class="row">
+      <h5 class="col">  </h5>
+    </div>
+
+    <div class="row">
+      <div class="col-5"> Постпечать </div>
+      <div class="col-2"> Цветность </div>
+      <div class="col-5"> Исполнитель </div>
+    </div>
+    <div  class="row" *ngFor="let item of order.cover?.postPress">
+      <div class="col-5"> {{item.work.name}} </div>
+      <div class="col-2"> {{item.color1 ? item.color1 + '+' : ''}}{{item.color2}} </div>
+      <div class="col-5"> {{item.contact.name}} </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="row">
+      <div class="col-5"> Принят в работу </div>
+      <div class="col-7"> {{order.regDate | date:'shortDate'}} </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+Внутренний блок

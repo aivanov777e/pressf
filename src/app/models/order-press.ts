@@ -3,6 +3,7 @@ import { Equipment } from './equipment';
 import { Paper } from './paper';
 import { Format } from './format';
 import { OrderPostPress } from './order-post-press';
+import { Material } from './material';
 
 export interface OrderPress {
   id?: string;
@@ -15,6 +16,9 @@ export interface OrderPress {
   paper: Paper;
   paperId: string;
   postPress?: OrderPostPress[];
+
+  material: Material;
+  materialId: string;
 
   count: number;
   countAdj: number;

@@ -13,6 +13,8 @@ export interface OrderPostPress {
 
   workType: WorkType;
   option: string;
+  color1: number;
+  color2: number;
   price: number;
 
   crud: string;
