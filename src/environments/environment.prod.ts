@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8080/pressb/',
+  apiUrl: 'https://pressb.herokuapp.com:7000/pressb/',
   debounceTime: 300,
   hmr: false,
 };
