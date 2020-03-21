@@ -32,3 +32,11 @@ heroku config:set API_URL=https://pressb.herokuapp.com/
 Set your API's prefix path (Default: /api/):
 
 heroku config:set API_PREFIX_PATH=/pressb/
+npm i -g heroku
+heroku local
+heroku ps:scale web=0 // heroku ps:scale web=1
+heroku logs --tail
+git push heroku master
+heroku open
+heroku config
+heroku config:set RECREATE_DB=1

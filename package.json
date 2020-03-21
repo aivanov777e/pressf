@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "hmr": "ng serve --configuration hmr --open --port 4201",
-    "postinstall": "ng build --output-path dist"
+    "postinstall": "ng build --configuration prod --output-path dist"
   },
   "private": true,
   "dependencies": {
