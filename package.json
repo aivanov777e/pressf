@@ -3,20 +3,24 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --open --port 4201",
+    "start0": "ng serve --open --port 4201",
+    "start": "node server.js",
     "prod": "ng serve --configuration prod --open --port 4201",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "hmr": "ng serve --configuration hmr --open --port 4201"
+    "hmr": "ng serve --configuration hmr --open --port 4201",
+    "postinstall": "ng build --output-path dist"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~9.0.7",
     "@angular/cdk": "^9.1.3",
+    "@angular/cli": "^9.0.7",
     "@angular/common": "~9.0.7",
     "@angular/compiler": "~9.0.7",
+    "@angular/compiler-cli": "^9.0.7",
     "@angular/core": "~9.0.7",
     "@angular/forms": "~9.0.7",
     "@angular/material": "^9.1.3",
@@ -25,6 +29,7 @@
     "@angular/platform-browser-dynamic": "~9.0.7",
     "@angular/router": "~9.0.7",
     "bootstrap": "^4.4.1",
+    "express": "^4.17.1",
     "guid-typescript": "^1.0.9",
     "moment": "^2.24.0",
     "rxjs": "~6.5.4",
@@ -33,8 +38,6 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.900.7",
-    "@angular/cli": "^9.0.7",
-    "@angular/compiler-cli": "~9.0.7",
     "@angular/language-service": "~9.0.7",
     "@angularclass/hmr": "^2.1.3",
     "@types/jasmine": "~3.3.8",
