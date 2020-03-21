@@ -29,7 +29,12 @@ var app = express();
 
 // Create link to Angular build directory
 var distDir = __dirname + "/dist/";
+var distInd = distDir + 'index.html'
 app.use(express.static(distDir));
+
+app.get('/*', function(req,res) {
+  res.sendFile(distInd);
+});
 
 var server = app.listen(process.env.PORT || 8080, function () {
   var port = server.address().port;
