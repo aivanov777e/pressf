@@ -21,7 +21,10 @@
   margin-bottom: 8px;
   flex-wrap: nowrap;
 }
-h4 {
+h4, h5 {
   margin: 8px;
   text-align: center;
+}
+.postPressTitle {
+  border-bottom: 1px solid gray;
 }

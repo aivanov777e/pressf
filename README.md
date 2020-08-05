@@ -26,6 +26,7 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
+git remote add heroku https://git.heroku.com/pressweb.git
 heroku config:set NGINX_WORKERS=1
 
 heroku config:set API_URL=https://pressb.herokuapp.com/
