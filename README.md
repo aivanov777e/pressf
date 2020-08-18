@@ -1,4 +1,8 @@
 # Pressf
+Приложение для автоматизации типографии
+ToDo: очень много
+ver 0.0.1
+https://pressweb.herokuapp.com/
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.1.3.
 
