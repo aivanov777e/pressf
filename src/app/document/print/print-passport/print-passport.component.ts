@@ -19,7 +19,7 @@ export class PrintPassportComponent implements OnInit {
   ngOnInit(): void {
     //this.route.data
     this.order = this.printService.data;
-    //this.printService.onDataReady();
+    this.printService.onDataReady();
   }
 
 }

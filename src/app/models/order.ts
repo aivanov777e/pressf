@@ -27,7 +27,7 @@ export interface Order {
   sheetsInItem: number;
   //count: number;
   width: number;
-  heigth: number;
+  height: number;
   price: number;
 
   //

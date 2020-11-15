@@ -13,12 +13,15 @@ import localeRu from '@angular/common/locales/ru';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoadingStateInterceptor } from './core/interceptors/loading-state.interceptor';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { LoginComponent } from './login/login.component';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 // import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 registerLocaleData(localeRu);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -36,8 +39,9 @@ registerLocaleData(localeRu);
     { provide: LOCALE_ID, useValue: 'ru' },
     // { provide: 'API_URL', useValue: environment.apiUrl },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingStateInterceptor, multi: true }
-  ],
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingStateInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

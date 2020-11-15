@@ -39,7 +39,7 @@ export class PaperComponent implements OnInit {
       if (result) {
         result.id = result.id || undefined;
         //result.orderPressId = this.press.id || undefined;
-        if (item && index) {
+        if (item && index != null) {
           this.table.dataSource[index] = result;
         } else {
           (this.table.dataSource as Array<any>).push(result);

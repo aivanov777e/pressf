@@ -35,7 +35,12 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     switch (error.status) {
       case 401: {
-        mes = error.error;
+        mes = 'Access denied';
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('authData');
+        //this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url }});
+
+        //mes = error.error;
         //this.auth.logout();
         this.router.navigate([`/login`]);
         break;

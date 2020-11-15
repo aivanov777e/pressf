@@ -1,139 +1,272 @@
 <div class="row pf">
   <div class="col-8">
-    <div class="row">
-      <h4 class="col">Паспорт на изготовление полиграфической продукции</h4>
+
+    <div class="row pf">
+      <div class="col-12">
+        <div class="row">
+          <h4 class="col">Паспорт на изготовление полиграфической продукции</h4>
+        </div>
+        <div class="row">
+          <div class="col-5"> № паспорта </div>
+          <div class="col-7"> {{order.number}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> Заказчик </div>
+          <div class="col-7"> {{order.division?.name}} {{order.subdivision?.name}} {{order.contact?.name}} {{order.contact?.tel}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> Наименование продукции </div>
+          <div class="col-7"> {{order.name}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> тираж </div>
+          <div class="col-7"> {{order.countOfItem}} </div>
+        </div>
+      </div>
     </div>
-    <div class="row">
-      <div class="col-5"> № паспорта </div>
-      <div class="col-7"> {{order.number}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> Заказчик </div>
-      <div class="col-7"> {{order.division?.name}} {{order.subdivision?.name}} {{order.contact?.name}} {{order.contact?.tel}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> Наименование продукции </div>
-      <div class="col-7"> {{order.name}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> тираж </div>
-      <div class="col-7"> {{order.countOfItem}} </div>
+    
+
+    <div class="row pf">
+      <div class="col-12">
+        <div class="row">
+          <h5 class="col"> Обложка </h5>
+        </div>
+        <div class="row">
+          <div class="col-5"> бумага </div>
+          <div class="col-7"> {{order.cover.material?.name}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> плотность </div>
+          <div class="col-7"> {{order.cover.paper?.density}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> формат </div>
+          <div class="col-7"> {{order.cover.format?.name}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> цветность </div>
+          <div class="col-7"> {{order.cover.color}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> печатная машина </div>
+          <div class="col-7"> {{order.cover.equipment?.name}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> кол-во печатных листов </div>
+          <div class="col-7"> {{order.cover.count}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> бумага на приладку/брак </div>
+          <div class="col-7"> {{order.cover.countAdj}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> исполнитель </div>
+          <div class="col-7"> {{order.cover.contact?.name}} </div>
+        </div>
+
+        <div class="row postPressTitle">
+          <div class="col-5"> Постпечать </div>
+          <div class="col-2"> Цветность </div>
+          <div class="col-5"> Исполнитель </div>
+        </div>
+        <div  class="row" *ngFor="let item of order.cover?.postPress">
+          <div class="col-5"> {{item.work?.name}} </div>
+          <div class="col-2"> {{item.color1 ? item.color1 + '+' : ''}}{{item.color2}} </div>
+          <div class="col-5"> {{item.contact?.name}} </div>
+        </div>
+      </div>
     </div>
 
-    <div class="row">
-      <h5 class="col"> Обложка </h5>
-    </div>
-    <div class="row">
-      <div class="col-5"> бумага </div>
-      <div class="col-7"> {{order.cover.material?.name}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> плотность </div>
-      <div class="col-7"> {{order.cover.paper?.density}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> формат </div>
-      <div class="col-7"> {{order.cover.format?.name}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> цветность </div>
-      <div class="col-7"> {{order.cover.color}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> печатная машина </div>
-      <div class="col-7"> {{order.cover.equipment?.name}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> кол-во печатных листов </div>
-      <div class="col-7"> {{order.cover.count}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> бумага на приладку/брак </div>
-      <div class="col-7"> {{order.cover.countAdj}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> исполнитель </div>
-      <div class="col-7"> {{order.cover.contact?.name}} </div>
-    </div>
-    <div class="row">
-      <h5 class="col">  </h5>
-    </div>
 
-    <div class="row postPressTitle">
-      <div class="col-5"> Постпечать </div>
-      <div class="col-2"> Цветность </div>
-      <div class="col-5"> Исполнитель </div>
-    </div>
-    <div  class="row" *ngFor="let item of order.cover?.postPress">
-      <div class="col-5"> {{item.work?.name}} </div>
-      <div class="col-2"> {{item.color1 ? item.color1 + '+' : ''}}{{item.color2}} </div>
-      <div class="col-5"> {{item.contact?.name}} </div>
-    </div>
+    <div class="row pf">
+      <div class="col-12">
+        <div class="row">
+          <h5 class="col"> Внутренний блок </h5>
+        </div>
+        <div class="row">
+          <div class="col-5"> бумага </div>
+          <div class="col-7"> {{order.block.material?.name}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> плотность </div>
+          <div class="col-7"> {{order.block.paper?.density}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> формат </div>
+          <div class="col-7"> {{order.block.format?.name}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> цветность </div>
+          <div class="col-7"> {{order.block.color}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> печатная машина </div>
+          <div class="col-7"> {{order.block.equipment?.name}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> кол-во печатных листов </div>
+          <div class="col-7"> {{order.block.count}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> бумага на приладку/брак </div>
+          <div class="col-7"> {{order.block.countAdj}} </div>
+        </div>
+        <div class="row">
+          <div class="col-5"> исполнитель </div>
+          <div class="col-7"> {{order.block.contact?.name}} </div>
+        </div>
 
-
-    <div class="row">
-      <h5 class="col"> Внутренний блок </h5>
-    </div>
-    <div class="row">
-      <div class="col-5"> бумага </div>
-      <div class="col-7"> {{order.block.material?.name}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> плотность </div>
-      <div class="col-7"> {{order.block.paper?.density}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> формат </div>
-      <div class="col-7"> {{order.block.format?.name}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> цветность </div>
-      <div class="col-7"> {{order.block.color}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> печатная машина </div>
-      <div class="col-7"> {{order.block.equipment?.name}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> кол-во печатных листов </div>
-      <div class="col-7"> {{order.block.count}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> бумага на приладку/брак </div>
-      <div class="col-7"> {{order.block.countAdj}} </div>
-    </div>
-    <div class="row">
-      <div class="col-5"> исполнитель </div>
-      <div class="col-7"> {{order.block.contact?.name}} </div>
-    </div>
-    <div class="row">
-      <h5 class="col">  </h5>
-    </div>
-
-    <div class="row postPressTitle">
-      <div class="col-5"> Постпечать </div>
-      <div class="col-2"> Цветность </div>
-      <div class="col-5"> Исполнитель </div>
-    </div>
-    <div  class="row" *ngFor="let item of order.block?.postPress">
-      <div class="col-5"> {{item.work?.name}} </div>
-      <div class="col-2"> {{item.color1 ? item.color1 + '+' : ''}}{{item.color2}} </div>
-      <div class="col-5"> {{item.contact?.name}} </div>
+        <div class="row postPressTitle">
+          <div class="col-5"> Постпечать </div>
+          <div class="col-2"> Цветность </div>
+          <div class="col-5"> Исполнитель </div>
+        </div>
+        <div  class="row" *ngFor="let item of order.block?.postPress">
+          <div class="col-5"> {{item.work?.name}} </div>
+          <div class="col-2"> {{item.color1 ? item.color1 + '+' : ''}}{{item.color2}} </div>
+          <div class="col-5"> {{item.contact?.name}} </div>
+        </div>    
+      </div>    
     </div>    
+
+
   </div>
   <div class="col-4">
+
     <div class="row">
-      <div class="col-5"> Принят в работу </div>
-      <div class="col-7"> {{order.regDate | date:'shortDate'}} </div>
+      <div class="col-12">
+        <div class="row">
+          <div class="col-7"> Принят в работу </div>
+          <div class="col-5"> {{order.regDate | date:'shortDate'}} </div>
+        </div>
+        <div class="row">
+          <div class="col-7"> Срок сдачи тиража </div>
+          <div class="col-5">  </div>
+        </div>
+        <div class="row" *ngIf="order.format">
+          <div class="col-7"> Формат готового изделия </div>
+          <div class="col-5"> {{order.format?.name}} </div>
+        </div>
+        <div class="row" *ngIf="!order.format">
+          <div class="col-7"> Ширина/высота готового изделия </div>
+          <div class="col-5"> {{order.width}} / {{order.height}} </div>
+        </div>
+        <div class="row">
+          <div class="col-7"> Листов в одном экз. изделия </div>
+          <div class="col-5"> {{order.sheetsInItem}} </div>
+        </div>        
+      </div>
     </div>
+
+    <div class="row">
+      <div class="col-12">
+        <span style="white-space: pre;">
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+        </span>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <h6 class="col"> Обложка </h6>
+        </div>
+        <div class="row">
+          <div class="col-7"> Стоимость бумаги </div>
+          <div class="col-5"> {{order.cover.pricePaper}} </div>
+        </div>        
+        <div class="row">
+          <div class="col-7"> Стоимость печати </div>
+          <div class="col-5"> {{order.cover.pricePress}} </div>
+        </div>        
+        <div class="row postPressTitle">
+          <div class="col-12"> Стоимость постпечати </div>
+        </div>
+        <div  class="row" *ngFor="let item of order.cover?.postPress">
+          <div class="col-7"> {{item.work?.name}} </div>
+          <div class="col-5"> {{item.price}} </div>
+        </div>    
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <h6 class="col"> Внутренний блок </h6>
+        </div>
+        <div class="row">
+          <div class="col-7"> Стоимость бумаги </div>
+          <div class="col-5"> {{order.block.pricePaper}} </div>
+        </div>        
+        <div class="row">
+          <div class="col-7"> Стоимость печати </div>
+          <div class="col-5"> {{order.block.pricePress}} </div>
+        </div>        
+        <div class="row postPressTitle">
+          <div class="col-12"> Стоимость постпечати </div>
+        </div>
+        <div  class="row" *ngFor="let item of order.block?.postPress">
+          <div class="col-7"> {{item.work?.name}} </div>
+          <div class="col-5"> {{item.price}} </div>
+        </div>    
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-7"> Стоимость 1 экземпляра </div>
+          <div class="col-5"> {{(order.price / order.countOfItem).toFixed(2)}} </div>
+        </div>        
+        <div class="row" style="font-weight: bold;">
+          <div class="col-7"> Стоимость тиража </div>
+          <div class="col-5"> {{order.price}} </div>
+        </div>        
+      </div>
+    </div>
+
+
   </div>
 </div>
 
-<div class="row pf">
-  
+
+
+<div class="row">
+  <div class="col-12" style="border-bottom: 1px dotted;"> </div>
 </div>
 
 
+<div class="row pf">
+  <div class="col-4">
+    <div class="row">
+      Дата выдачи тиража
+    </div>
+  </div>
+  <div class="col-3">
+    <h5>Заказ получил</h5>
+  </div>
+  <div class="col-5 signature">
+    <div class="row">
+      ФИО _____________________________
+    </div>
+    <div class="row">
+      подпись _________________________
+    </div>
+    <div class="row">
+      талефон _________________________
+    </div>
+  </div>
+</div>
 
 
 
