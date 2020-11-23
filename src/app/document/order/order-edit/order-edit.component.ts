@@ -20,6 +20,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { OrderPressEditComponent } from 'src/app/document/order/order-press-edit/order-press-edit.component';
 import { WorkType } from 'src/app/models/order-post-press';
 import { PrintService } from 'src/app/core/services/print.service';
+import { CanComponentDeactivate } from 'src/app/core/guards/can-deactivate.guard';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { SnackbarService } from 'src/app/core/services/snackbar.service';
 
 // export function selectedValueValidator(): ValidatorFn {
 //   return (control: AbstractControl): {[key: string]: any} | null => {
@@ -34,7 +37,7 @@ import { PrintService } from 'src/app/core/services/print.service';
   templateUrl: './order-edit.component.html',
   styleUrls: ['./order-edit.component.less']
 })
-export class OrderEditComponent implements OnInit {
+export class OrderEditComponent implements OnInit, CanComponentDeactivate {
   orderForm = this.fb.group({
     id: undefined,
     division: [null, Validators.required],
@@ -140,8 +143,12 @@ export class OrderEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
-    private printService: PrintService
-  ) { }
+    private printService: PrintService,
+    private snackbarService: SnackbarService,
+  ) {
+    this.canDeactivate = () => !(this.orderForm.dirty || this.coverComp.fg.dirty || this.blockComp.fg.dirty);
+   }
+  canDeactivate: () => boolean | Observable<boolean> | Promise<boolean>;
 
   ngOnInit() {
     this.route.paramMap.pipe(
@@ -360,7 +367,8 @@ export class OrderEditComponent implements OnInit {
 // }
 
   back() {
-    this.location.back();
+    //this.location.back();
+    this.router.navigate([`/document/order`]);
   }
 
   save() {
@@ -404,6 +412,9 @@ export class OrderEditComponent implements OnInit {
         //this.order = resp;
         // this.order = {...this.order, ...resp};
         this.fillFields(resp);
+        this.orderForm.markAsPristine();
+        this.coverComp.fg.markAsPristine();
+        this.blockComp.fg.markAsPristine();
       });
     } else {
       this.orderService.create(order2).subscribe((resp) => {
@@ -411,6 +422,9 @@ export class OrderEditComponent implements OnInit {
         //this.order = resp;
         // this.order = {...this.order, ...resp};
         this.fillFields(resp);
+        this.orderForm.markAsPristine();
+        this.coverComp.fg.markAsPristine();
+        this.blockComp.fg.markAsPristine();
       });
     }
 
@@ -465,7 +479,16 @@ export class OrderEditComponent implements OnInit {
   }
 
   onPrintPassport() {
-    this.printService.printDocument('passport', this.order.id, this.order);
+    if (!this.canDeactivate()){
+      this.snackbarService.openSnackBar(`Перед печатью необходимо сохранить изменения`, 'red-snackbar');
+      // const ConfirmRef = this.dialog.open(ConfirmDialogComponent, {
+      //   width: '500px',
+      //   data: {
+      //     message: `Перед печатью необходимо сохранить изменения!`,
+      //     title: 'Внимание'
+      //   }
+      // });
+    } else this.printService.printDocument('passport', this.order.id, this.order);
   }
   // editPostPress(price = null, index = null) {
   //   const dialogRef = this.dialog.open(PaperPriceEditComponent, {

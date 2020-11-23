@@ -15,6 +15,7 @@ import { LoadingStateInterceptor } from './core/interceptors/loading-state.inter
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { CanDeactivateGuard } from './core/guards/can-deactivate.guard';
 // import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 registerLocaleData(localeRu);
 
@@ -41,6 +42,7 @@ registerLocaleData(localeRu);
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingStateInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    CanDeactivateGuard
    ],
   bootstrap: [AppComponent]
 })

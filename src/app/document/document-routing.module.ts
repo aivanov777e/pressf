@@ -13,12 +13,12 @@ import { EquipmentComponent } from './equipment/equipment.component';
 import { EquipmentEditComponent } from './equipment-edit/equipment-edit.component';
 import { PrintLayoutComponent } from './print/print-layout/print-layout.component';
 import { PrintPassportComponent } from './print/print-passport/print-passport.component';
-
+import { CanDeactivateGuard } from '../core/guards/can-deactivate.guard';
 
 const routes: Routes = [
   {path: 'order', children: [
     {path: '', component: OrderComponent},
-    {path: ':id', component: OrderEditComponent}
+    {path: ':id', component: OrderEditComponent, canDeactivate: [CanDeactivateGuard]}
   ]},
   {path: 'paper', children: [
     {path: '', component: PaperComponent},
@@ -46,6 +46,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  //providers: [CanComponentDeactivate]
 })
 export class DocumentRoutingModule { }

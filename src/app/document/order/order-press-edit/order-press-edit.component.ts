@@ -31,7 +31,7 @@ export class OrderPressEditComponent implements OnInit {
   _press: OrderPress = {} as OrderPress;
   @Input()
   set press(val: OrderPress) {
-    this._press = val || {} as OrderPress;
+    this._press = val || {postPress:[]} as OrderPress;
     this._press.color = this._press.color1 + '+' + this._press.color2;
     this.fg.patchValue(this._press);
   }
